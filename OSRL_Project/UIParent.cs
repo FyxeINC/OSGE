@@ -2,12 +2,6 @@
 
 public class UIParent : IRenderable
 {
-    protected ScreenSpace m_ScreenSpace;
-
-    public UIParent(ScreenSpace screenSpace)
-    {
-        m_ScreenSpace = screenSpace;
-    }
 
     List<UIElement> UIElementCollection = new List<UIElement> ();
 
