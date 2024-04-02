@@ -2,26 +2,26 @@
 
 using System.Dynamic;
 
-public class UIManager
+public static class UIManager
 {
-    public List<UIObject> UIObjectCollection = new List<UIObject> ();
-    protected UIObject CurrentFocusObject = null;
+    public static List<UIParent> UIParentCollection = new List<UIParent> ();
+    static UIParent CurrentFocusObject = null;
 
-    public UIObject GetCurrentFocusObject() 
+    public static UIParent GetCurrentFocusObject() 
     { 
-        if (UIObjectCollection.Count <= 0)
+        if (UIParentCollection.Count <= 0)
         {
             return null;
         }
         else 
         {
-            return UIObjectCollection[0];
+            return UIParentCollection[0];
         }
     }
 
-    public bool SetCurrentFocusObject(UIObject newObject)
+    public static bool SetCurrentFocusObject(UIParent uiObject)
     {
-        int index = UIObjectCollection.IndexOf(newObject);
+        int index = UIParentCollection.IndexOf(uiObject);
         if (index == -1)
         {
             return false;
@@ -30,17 +30,53 @@ public class UIManager
         {
             return false;
         }
-        UIObject currentFocus = GetCurrentFocusObject();
-        if (currentFocus != null)
-        {
-            GetCurrentFocusObject().OnUnfocused();
-        }
 
-        UIObjectCollection.Remove(newObject);
-        UIObjectCollection.Insert(0, newObject);
+        UIParentCollection.Remove(uiObject);
+        UIParentCollection.Insert(0, uiObject);
 
-        GetCurrentFocusObject().OnFocused();
+        UpdateCurrentFocusObject();
         
         return true;
+    }
+
+    public static void UpdateCurrentFocusObject()
+    {
+        for (int i = 0; i < UIParentCollection.Count; i++)
+        {
+            UIParentCollection[i].SetIsFocused(i == 0);
+        }
+    }
+
+    public static T CreateUIObject<T>(bool shouldFocus = false) where T : UIParent, new()
+    {        
+        T newUIObject = new T();
+
+        UIParentCollection.Add(newUIObject);
+
+        if (shouldFocus)
+        {
+            // Calls update focus object
+            SetCurrentFocusObject(newUIObject);
+        }
+        else
+        {
+            UpdateCurrentFocusObject();
+        }
+
+        return newUIObject;
+    }
+
+    public static void DestroyUIObject(this UIParent uiObject)
+    {
+        UIParentCollection.Remove(uiObject);          
+        UpdateCurrentFocusObject();              
+    }
+
+    public static void RenderAll()
+    {
+        foreach (var i in UIParentCollection)
+        {
+            i.Render();
+        }
     }
 }
