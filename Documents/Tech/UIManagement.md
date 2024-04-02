@@ -1,5 +1,9 @@
 # UI MANAGEMENT
 
-UI Manager handles order and current selection
-
-UI Object 
+## Main Classes
+- UI Manager 
+  - Holds a collection of UI Objects and maintains which one is in focus
+- UI Parent
+  - Holds a ScreenSpace and a collection of UI elements
+- UI Element
+  - Everything else
