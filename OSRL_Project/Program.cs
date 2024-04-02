@@ -1,4 +1,5 @@
-﻿using ConsoleRenderer;
+﻿using System.Diagnostics;
+using ConsoleRenderer;
 using W = ConsoleHelperLibrary.Classes.WindowUtility;
 
 public class Program
@@ -7,12 +8,19 @@ public class Program
 
 	static int Main(string[] args)
 	{
-		Console.Title = "Roomy";
-		W.SetConsoleWindowPosition(W.AnchorWindow.Fill);
+		Console.Title = "OSRL";
+		//W.SetConsoleWindowPosition(W.AnchorWindow.Fill);
 		
-		ConsoleRenderer.ConsoleCanvas Canvas = new ConsoleCanvas (false, false);
-		Canvas.CreateBorder();
-		Canvas.Render();
+		Transform parent = new Transform (AnchorType.topLeft, new Point (), 100, 100, new TransformOffset ());
+		Transform childTopleft = new Transform (AnchorType.topLeft, new Point (5,10), 50, 50, new TransformOffset (), parent);
+		Transform childStretch = new Transform (AnchorType.stretch, new Point (), 0, 0, new TransformOffset (10, 5, 15, 2), parent);
+
+		Rect topLeft = childTopleft.GetRect();
+		Rect stretch = childStretch.GetRect();
+
+		Debug.Print(topLeft.X + " " + topLeft.Y + " " + topLeft.Width + " " + topLeft.Height);
+		Debug.Print(stretch.X + " " + stretch.Y + " " + stretch.Width + " " + stretch.Height);
+
 		//m_Display = new Display ();
 		//m_Display.Render();
 		Console.ReadKey();

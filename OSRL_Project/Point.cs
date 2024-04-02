@@ -7,4 +7,10 @@ public class Point
     X = x;
     Y = y;
   }
+
+  public Point()
+  {
+    X = 0;
+    Y = 0;
+  }
 }
