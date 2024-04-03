@@ -1,4 +1,6 @@
 
+using System.Diagnostics;
+
 public class GameObject : IDrawable
 {
     // TODO - object ID?
@@ -6,60 +8,83 @@ public class GameObject : IDrawable
     public GameObject()
     {
         Name = "GameObject";
-        Position = new Point(0,0);
+        ScreenPosition = new Point(0,0);
     }
     public GameObject(string name, int x, int y) 
     {
         Name = name;
-        Position = new Point (x,y);
+        ScreenPosition = new Point (x,y);
     }
-    public GameObject(string name, Point position)
+    public GameObject(string name, Point screenPosition)
     {
         Name = name;
-        Position = position;
+        ScreenPosition = screenPosition;
     }
     #endregion
 
-    public Point Position;
+    public virtual ConsoleColor GetColorForeground()
+    {
+        return ConsoleColor.White;
+    }
+
+    public virtual ConsoleColor GetColorBackground()
+    {
+        return ConsoleColor.Black;
+    }
+
+
+    public Point ScreenPosition;
     public GameObject Parent { get; set; }
     protected List<GameObject> ChildrenCollection = new List<GameObject> ();
 
     public string Name = "GameObject";
 
-    public void SetParent(GameObject newParent)
+    public virtual void SetParent(GameObject newParent)
     {
         Parent = newParent;
     }
 
-    public void SetPosition(Point point) { SetPosition(point.X, point.Y); }
-    public void SetPosition(int x, int y)
+    public void SetScreenPosition(Point point) { SetScreenPosition(point.X, point.Y); }
+    public void SetScreenPosition(int x, int y)
     {
-        Position.X = x;
-        Position.Y = y;
+        ScreenPosition.X = x;
+        ScreenPosition.Y = y;
     }
 
-    public Point GetPosition()
+    public virtual Point GetScreenPosition()
     {
         if (Parent != null)
         {
-            return Position + Parent.GetPosition();
+            //Debug.WriteLine(Name + " parent not null");
+            return ScreenPosition + Parent.GetScreenPosition();
         }
         else
         {
-            return Position;
+            //Debug.WriteLine(Name + " parent IS null");
+            return ScreenPosition;
         }
     }
 
     public Point GetLocalPosition()
     {
-        return Position;
+        return ScreenPosition;
     }
 
-    public override void Draw() {}
+    public virtual void Draw() 
+    {
+        for (int i = ChildrenCollection.Count-1; i >= 0; i--)
+        {
+            ChildrenCollection[i].Draw();
+        }
+        // foreach (var i in ChildrenCollection)
+        // {
+        //     i.Draw();
+        // }
+    }
 
     public override string ToString()
     {
-        return $"{Name} : ({GetPosition().X}) | ({GetPosition().Y})";
+        return $"{Name} : ({GetScreenPosition().X}) | ({GetScreenPosition().Y})";
     }
 
     public List<GameObject> GetChildren()
@@ -70,6 +95,11 @@ public class GameObject : IDrawable
     public int GetChildrenCount()
     {
         return ChildrenCollection.Count;
+    }
+
+    public bool ContainsChild(GameObject child)
+    {
+        return ChildrenCollection.Contains(child);
     }
 
     public void AddChild(GameObject newChild)
@@ -106,5 +136,29 @@ public class GameObject : IDrawable
 
         ChildrenCollection.Remove(toRemove);
         toRemove.SetParent(null);
+    }
+
+    public void SetChildIndex(GameObject child, int index)
+    {
+        if (child == null)
+        {
+            return;
+        }
+        if (!ChildrenCollection.Contains(child) || ChildrenCollection.IndexOf(child) == index)
+        {
+            return;
+        }
+
+        ChildrenCollection.Remove(child);
+        ChildrenCollection.Insert(index, child);
+    }
+
+    public int GetChildIndex(GameObject child)
+    {
+        if (child == null)
+        {
+            return -1;
+        }
+        return ChildrenCollection.IndexOf(child);
     }
 }
