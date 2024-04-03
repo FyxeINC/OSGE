@@ -1,4 +1,4 @@
-public class UIElement : IRenderable
+public class UIElement : IDrawable
 {
   public UIParent m_Parent;
   public Transform m_Transform;
@@ -7,6 +7,6 @@ public class UIElement : IRenderable
   public virtual void OnFocused() {}
   public virtual void OnUnfocused() {}
 
-  public override void Render() {}
+  public override void Draw() {}
 
 }

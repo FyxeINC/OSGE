@@ -2,26 +2,31 @@ using ConsoleRenderer;
 using ConsoleHelperLibrary.Classes;
 
 
-public class Display
+public static class Display
 {
-    protected ConsoleCanvas m_DisplayCanvas;
+    private static ConsoleCanvas m_DisplayCanvas = null;
 
-    public Display()
+    public static void Initialize()
     {        
-		  m_DisplayCanvas = new ConsoleCanvas(true, true).CreateBorder();
+        m_DisplayCanvas = new ConsoleCanvas(false, false);
     }
 
-    public void Render()
+    public static void Draw(int x, int y, char character, ConsoleColor foreground, ConsoleColor background)
     {
-      for (int y = 0; y < m_DisplayCanvas.Height; y++)
-            {
-                for (int x = 0; x < m_DisplayCanvas.Width; x++)
-                {
-                    ConsoleColor color = Random.Shared.NextSingle() < 0.5 ? ConsoleColor.White : ConsoleColor.Black;
-                    m_DisplayCanvas.Set(x, y, ' ', color, color);
-                }
-            }
-      m_DisplayCanvas.Render();
+        if (m_DisplayCanvas == null)
+        {
+            return;
+        }
+        m_DisplayCanvas.Set(x, y, character, foreground, background);
+    }
+
+    public static void Render()
+    {
+        if (m_DisplayCanvas == null)
+        {
+            return;
+        }
+        m_DisplayCanvas.Render();
     }
 
 }
