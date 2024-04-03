@@ -6,16 +6,86 @@ public class Program
 {
 	static int Main(string[] args)
 	{
-		Console.Title = "OSRL";
+		Console.Title = "OSRL - Open Source Rouge Like";
 		W.SetConsoleWindowPosition(W.AnchorWindow.Fill);
+		Console.CursorVisible = false;		
 
-		Display.Initialize();
+		DisplayManager.Initialize();
+		UIManager.Initialize();
 		
-		UIObject MainUIObject = new UIObject ("MainUIObject", 0, 0);
-		MainUIObject.Width = Console.WindowWidth;
-		MainUIObject.Height = Console.WindowHeight;
-		MainUIObject.Draw();
-		Display.Render();
+		UI_SolidFill solidColor1 = new UI_SolidFill ("UIColor1",0,0,0,0, 
+			ConsoleColor.DarkCyan, 
+			ConsoleColor.DarkCyan,
+			ConsoleColor.DarkCyan, 
+			ConsoleColor.DarkCyan,
+			'.');
+		solidColor1.UseOffsetLeftRight = true;
+		solidColor1.UseOffsetTopBottom = true;
+
+		UI_Panel panel1 = new UI_Panel ("panel1", 0, 4, 30, 30, 
+			ConsoleColor.White, 
+			ConsoleColor.DarkGray, 
+			ConsoleColor.Gray, 
+			ConsoleColor.Black, 
+			BorderType.doubleLine, 
+			"Panel 1 is the greatest panel ever.");
+		panel1.UseOffsetTopBottom = true;
+		panel1.OffsetTop = 30;
+		panel1.OffsetBottom = 20;
+		panel1.UseOffsetLeftRight = true;
+		panel1.OffsetLeft= 10;
+		panel1.OffsetRight = 20;
+
+		UI_Panel panel2 = new UI_Panel ("panel2", 30, 30, 70, 20,
+			ConsoleColor.White, 
+			ConsoleColor.Blue, 
+			ConsoleColor.Gray, 
+			ConsoleColor.DarkBlue, 
+			BorderType.doubleLine, 
+			"Panel 2 is alright I guess...");
+
+		UIManager.RegisterUIObject(panel1, true);
+		UIManager.RegisterUIObject(panel2, true);
+		UIManager.RegisterUIObject(solidColor1, false);
+
+		UIManager.Draw();
+		DisplayManager.Render();
+
+		ConsoleKeyInfo keyInfo = new ConsoleKeyInfo ();
+		do
+		{
+			keyInfo = Console.ReadKey(true);
+
+			// if (keyInfo.Key == ConsoleKey.RightArrow)
+			// {
+			// 	panel1.SetPosition(panel1.GetPosition().X + 10, panel1.GetPosition().Y);
+			// }
+			// else if (keyInfo.Key == ConsoleKey.LeftArrow)
+			// {
+			// 	panel1.SetPosition(panel1.GetPosition().X - 10, panel1.GetPosition().Y);
+			// }
+			// else if (keyInfo.Key == ConsoleKey.UpArrow)
+			// {
+			// 	panel1.SetPosition(panel1.GetPosition().X, panel1.GetPosition().Y - 10);
+			// }
+			// else if (keyInfo.Key == ConsoleKey.DownArrow)
+			// {
+			// 	panel1.SetPosition(panel1.GetPosition().X, panel1.GetPosition().Y + 10);
+			// }
+			if (keyInfo.Key == ConsoleKey.RightArrow)
+			{
+				UIManager.SetCurrentFrontmostObject(panel1);
+			}
+			else if (keyInfo.Key == ConsoleKey.LeftArrow)
+			{
+				UIManager.SetCurrentFrontmostObject(panel2);				
+			}
+
+			UIManager.Draw();
+			DisplayManager.Render();
+		}
+		while(keyInfo.Key != ConsoleKey.Enter);
+		
 
 		
 		//Debug.WriteLine(MainUIObject.Width + "  |  " + MainUIObject.Height);
@@ -40,7 +110,6 @@ public class Program
 
 		//m_Display = new Display ();
 		//m_Display.Render();
-		Console.ReadKey();
 			
 		return 0;
 	}

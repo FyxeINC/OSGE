@@ -2,7 +2,7 @@ using ConsoleRenderer;
 using ConsoleHelperLibrary.Classes;
 
 
-public static class Display
+public static class DisplayManager
 {
     private static ConsoleCanvas m_DisplayCanvas = null;
 
@@ -18,6 +18,16 @@ public static class Display
             return;
         }
         m_DisplayCanvas.Set(x, y, character, foreground, background);
+    }
+
+    public static void DrawText(int x, int y, string text, bool centered = false, ConsoleColor? foreground = null, ConsoleColor? background = null)
+    {
+        if (m_DisplayCanvas == null)
+        {
+            return;
+        }
+        // TODO - make text respect previously set color
+        m_DisplayCanvas.Text(x, y, text, centered, foreground, background);
     }
 
     public static void Render()
