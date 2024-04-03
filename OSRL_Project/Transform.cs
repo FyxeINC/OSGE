@@ -34,8 +34,8 @@ public class Transform
   protected AnchorType m_AnchorType = AnchorType.topLeft;
 
   public Point StartPoint;
-  public int X => StartPoint.X;
-  public int Y => StartPoint.Y;
+  public int X {get {return StartPoint.X;} set {StartPoint.X = value;}}
+  public int Y {get {return StartPoint.Y;} set {StartPoint.Y = value;}}
   public int Width, Height;
 
   public TransformOffset Offset;

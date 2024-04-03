@@ -2,7 +2,7 @@
 
 using System.Diagnostics;
 
-public class UIParent : IRenderable
+public class UIParent : IDrawable
 {
 
     Dictionary<string, UIElement> UIElementCollection = new Dictionary<string, UIElement> ();
@@ -54,16 +54,16 @@ public class UIParent : IRenderable
         UIManager.DestroyUIObject(this);
     }
 
-    public override void Render()
+    public override void Draw()
     {
-        base.Render();
+        base.Draw();
         foreach (var i in UIElementCollection)
         {
-          i.Value.Render();
+          i.Value.Draw();
         }
     }
 
-    public UIElement AddElement<T>(string elementKey) where T : UIElement, new()
+    public T AddUIElement<T>(string elementKey) where T : UIElement, new()
     {
         if (UIElementCollection.ContainsKey(elementKey))
         {
@@ -76,8 +76,8 @@ public class UIParent : IRenderable
         return newElement;
     }
 
-    public void RemoveElement(string elementKey)
+    public void RemoveUIElement(string elementKey)
     {
-        UIElementCollection
+        UIElementCollection.Remove(elementKey);
     }
 }

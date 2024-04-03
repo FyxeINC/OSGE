@@ -72,11 +72,12 @@ public static class UIManager
         UpdateCurrentFocusObject();              
     }
 
-    public static void RenderAll()
+    public static void RenderUI()
     {
         foreach (var i in UIParentCollection)
         {
-            i.Render();
+            i.Draw();
         }
+        Display.Render();
     }
 }
