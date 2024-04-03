@@ -18,7 +18,7 @@ public enum AnchorType
   // bottomLeft,
   // bottomCenter,
   // bottomRight,
-  // topCenterWidthStretch,
+  topCenterWidthStretch,
   // centerWidthStretch,
   // bottomCenterWidthStretch,
   // leftHeightStretch,
@@ -57,6 +57,14 @@ public class Transform
         toReturn.Location.Y = Y + parentRect.Location.Y;
 
         toReturn.Width = Width;
+        toReturn.Height = Height;
+        break;
+        
+      case AnchorType.topCenterWidthStretch:        
+        toReturn.Location.X = parentRect.Location.X + Offset.Left;
+        toReturn.Location.Y = Y + parentRect.Location.Y;
+
+        toReturn.Width = parentRect.Width - Offset.Left - Offset.Right;
         toReturn.Height = Height;
         break;
       case AnchorType.stretch:
