@@ -1,9 +1,11 @@
 
 
+using System.Diagnostics;
+
 public class UIParent : IRenderable
 {
 
-    List<UIElement> UIElementCollection = new List<UIElement> ();
+    Dictionary<string, UIElement> UIElementCollection = new Dictionary<string, UIElement> ();
 
     protected bool m_IsFocused = false;
     public bool GetIsFocused() {return m_IsFocused;}
@@ -34,7 +36,7 @@ public class UIParent : IRenderable
         m_IsFocused = true;
         foreach (var i in UIElementCollection)
         {
-            i.OnFocused();
+            i.Value.OnFocused();
         }
     }
 
@@ -43,7 +45,7 @@ public class UIParent : IRenderable
         m_IsFocused = false;
         foreach (var i in UIElementCollection)
         {
-            i.OnUnfocused();
+            i.Value.OnUnfocused();
         }
     }
 
@@ -57,7 +59,25 @@ public class UIParent : IRenderable
         base.Render();
         foreach (var i in UIElementCollection)
         {
-          i.Render();
+          i.Value.Render();
         }
+    }
+
+    public UIElement AddElement<T>(string elementKey) where T : UIElement, new()
+    {
+        if (UIElementCollection.ContainsKey(elementKey))
+        {
+            Debug.WriteLine($"Element Key already exists for string({elementKey})");
+            return null;
+        }
+
+        T newElement = new T ();
+        UIElementCollection.Add(elementKey, newElement);
+        return newElement;
+    }
+
+    public void RemoveElement(string elementKey)
+    {
+        UIElementCollection
     }
 }

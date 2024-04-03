@@ -21,6 +21,18 @@ public class Program
 		Debug.Print(topLeft.X + " " + topLeft.Y + " " + topLeft.Width + " " + topLeft.Height);
 		Debug.Print(stretch.X + " " + stretch.Y + " " + stretch.Width + " " + stretch.Height);
 
+
+
+
+		
+		UIParent uiParent = UIManager.CreateUIObject<UIParent>(true);
+		UIE_SolidColor elementSolidColor = uiParent.AddElement<UIE_SolidColor>("SolidColor");
+		elementSolidColor.DisplayChar = ' ';
+		elementSolidColor.Foreground = ConsoleColor.White;
+		elementSolidColor.Background = ConsoleColor.Black;
+		
+		UIManager.RenderAll();
+
 		//m_Display = new Display ();
 		//m_Display.Render();
 		Console.ReadKey();
