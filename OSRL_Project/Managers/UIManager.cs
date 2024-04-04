@@ -21,6 +21,11 @@ public static class UIManager
         Layout = new UIObject ("Layout", 0, 0, Console.WindowWidth, Console.WindowHeight);
     }
 
+    public static void UpdateResolution()
+    {
+        Layout.SetSize(Console.WindowWidth, Console.WindowHeight);
+    }
+
     static IFocusable CurrentFocusObject;
     public static IFocusable GetCurrentFocusObject()
     {
@@ -29,6 +34,12 @@ public static class UIManager
 
     public static void SetCurrentFocusObject(IFocusable newFocus)
     {
+        if (newFocus != null && !newFocus.CanFocus)
+        {            
+            Log.Warning("Attempting to focus object(" + newFocus.ToString()+ ") with CanFocus==false.");
+            return;
+        }
+
         if (CurrentFocusObject != null)
         {
             CurrentFocusObject.OnUnfocused();
@@ -66,6 +77,7 @@ public static class UIManager
     {
         if (Layout == null)
         {
+            Log.Error("Cannot Set Frontmost Object when Layout is Null");
             return false;
         }
 
@@ -110,6 +122,7 @@ public static class UIManager
     {
         if (Layout == null)
         {
+            Log.Error("Cannot Register UI Object when Layout is Null");
             return false;
         }
         if (Layout.ContainsChild(uiObject))
@@ -136,6 +149,7 @@ public static class UIManager
     {
         if (Layout == null)
         {
+            Log.Error("Cannot Destroy UI Object when Layout is Null");
             return;
         }
 

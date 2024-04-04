@@ -27,8 +27,13 @@ public class Rect
     Height = height;
   }
 
-    public override string ToString()
-    {
-        return $"(X:{X} | Y:{Y}  | W:{Width} | H:{Height})";
-    }
+  public override string ToString()
+  {
+      return $"(X:{X} | Y:{Y}  | W:{Width} | H:{Height})";
+  }
+
+  public int GetArea()
+  {
+    return Width * Height;
+  }
 }

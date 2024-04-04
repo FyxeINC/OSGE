@@ -11,13 +11,30 @@ public static class DisplayManager
         m_DisplayCanvas = new ConsoleCanvas(false, false);
     }
 
-    public static void Draw(int x, int y, char character, ConsoleColor foreground, ConsoleColor background)
+    public static void Draw(int x, int y, char character, ConsoleColor foreground, ConsoleColor? background = null)
     {
+        if (x < 0 || x >= m_DisplayCanvas.Width)
+        {
+            return;
+        }
+        else if (y < 0 || y >= m_DisplayCanvas.Height)
+        {
+            return;
+        }
+
         if (m_DisplayCanvas == null)
         {
             return;
         }
-        m_DisplayCanvas.Set(x, y, character, foreground, background);
+        if (background.HasValue)
+        {
+            m_DisplayCanvas.Set(x, y, character, foreground, background.Value);
+        }
+        else
+        {
+            Pixel pixel = m_DisplayCanvas.Get(x,y, false);
+            m_DisplayCanvas.Set(x, y, character, foreground, pixel.Background);
+        }
     }
 
     public static void DrawText(int x, int y, string text, bool centered = false, ConsoleColor? foreground = null, ConsoleColor? background = null)
