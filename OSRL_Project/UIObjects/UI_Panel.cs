@@ -12,14 +12,15 @@ public class UI_Panel : UIObject
         : base(name, x, y, width, height)
     {
       UISolidFill = new UI_SolidFill (name + "_Fill", 0, 0, 0, 0, foreground, background, foregroundNotFrontmost, backgroundNotFrontmost, panelBackgroundChar);
-      UISolidFill.UseOffsetLeftRight = true;
-      UISolidFill.UseOffsetTopBottom = true;
+      UISolidFill.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
       UIBorder = new UI_Border (borderType, foreground, background, foregroundNotFrontmost, backgroundNotFrontmost);
+      UIBorder.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
       UIBorder.Name = name + "_Border";
       UITextArea = new UI_TextArea (name + "_Text", 0, 0, 0, 1, foreground, background, foregroundNotFrontmost, backgroundNotFrontmost, panelTitle);
-      UITextArea.UseOffsetLeftRight = true;
-      UITextArea.OffsetLeft = 3;
-      UITextArea.OffsetRight = 3;
+      UITextArea.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.top);
+      UITextArea.SetOffset(0,0,3,3);
+      UITextArea.SetScreenPosition(0, 0);
+      UITextArea.SetSize(10, 1);
 
       this.AddChild(UITextArea, false);
       this.AddChild(UIBorder, false);

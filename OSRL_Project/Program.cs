@@ -6,7 +6,7 @@ public class Program
 {
 	static int Main(string[] args)
 	{
-		Console.Title = "OSRL - Open Source Rouge Like";
+		Console.Title = "OSRL - (ESC to Quit)";
 		W.SetConsoleWindowPosition(W.AnchorWindow.Fill);
 		Console.CursorVisible = false;		
 
@@ -21,16 +21,44 @@ public class Program
 			'.');
 		solidColor1.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
 
-		UI_SolidFill panel1 = new UI_SolidFill ("panel1", 0, 4, 30, 30, 
+		UI_Panel panel1 = new UI_Panel ("panel1", 0, 4, 30, 30, 
 			ConsoleColor.White, 
 			ConsoleColor.DarkGray, 
 			ConsoleColor.Gray, 
 			ConsoleColor.Black, 
-			'.');
-		panel1.SetAnchorPoint(AnchorPointHorizonal.center, AnchorPointVertical.stretch);
-		panel1.SetScreenPosition(0,0);
-		panel1.SetSize(30, 0);
+			BorderType.doubleLine,
+			"Panel 1");
+		panel1.SetAnchorPoint(AnchorPointHorizonal.right, AnchorPointVertical.bottom);
+		panel1.SetScreenPosition(-3,-3);
+		panel1.SetSize(30, 30);
 
+		UI_TextArea areaA = new UI_TextArea ("textAreaA", 0, 2, 0, 1, 
+			ConsoleColor.White, 
+			ConsoleColor.Blue, 
+			ConsoleColor.Gray, 
+			ConsoleColor.DarkBlue, 
+			"Text Selection A");
+		UI_TextArea areaB = new UI_TextArea ("textAreaB", 0, 2, 0, 1, 
+			ConsoleColor.White, 
+			ConsoleColor.Blue, 
+			ConsoleColor.Gray, 
+			ConsoleColor.DarkBlue, 
+			"Text Selection B");
+		UI_TextArea areaC = new UI_TextArea ("textAreaC", 0, 2, 0, 1, 
+			ConsoleColor.White, 
+			ConsoleColor.Blue, 
+			ConsoleColor.Gray, 
+			ConsoleColor.DarkBlue, 
+			"Text Selection C");
+
+		UI_VerticalGroup verticalGroup = new UI_VerticalGroup("vertG", new Point (), 0, 0);
+		verticalGroup.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
+		verticalGroup.SetOffset(1,1,1,1);
+		verticalGroup.ListAnchorPoint = AnchorPointVertical.bottom;
+		panel1.AddChild(verticalGroup);
+		verticalGroup.AddChild(areaC);
+		verticalGroup.AddChild(areaB);
+		verticalGroup.AddChild(areaA);
 
 		// UI_Panel panel2 = new UI_Panel ("panel2", 30, 10, 70, 20,
 		// 	ConsoleColor.White, 
