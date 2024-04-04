@@ -1,5 +1,14 @@
 using System.Data;
 
+public enum TextAlignmentHorizontal
+{
+    left, center, right
+}
+public enum TextAlignmentVertical
+{
+    top, middle, bottom
+}
+
 public class UI_TextArea : UIObject
 {
     #region Constructors
@@ -16,6 +25,8 @@ public class UI_TextArea : UIObject
     }
     #endregion
     string Text;
+    TextAlignmentHorizontal AlignmentHorizontal = TextAlignmentHorizontal.left;
+    TextAlignmentVertical AlignmentVertical = TextAlignmentVertical.top;
 
     public override void Draw()
     {

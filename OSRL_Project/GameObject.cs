@@ -116,7 +116,7 @@ public class GameObject : IDrawable, ITickable
         return ChildrenCollection.Contains(child);
     }
 
-    public void AddChild(GameObject newChild, bool frontmost = true)
+    public virtual void AddChild(GameObject newChild, bool frontmost = true)
     {
         if (newChild == null)
         {
@@ -143,7 +143,7 @@ public class GameObject : IDrawable, ITickable
         newChild.SetParent(this);
     }
 
-    public void RemoveChild(GameObject toRemove)
+    public virtual void RemoveChild(GameObject toRemove)
     {
         if (!ChildrenCollection.Contains(toRemove))
         {
@@ -158,7 +158,7 @@ public class GameObject : IDrawable, ITickable
         toRemove.SetParent(null);
     }
 
-    public void SetChildIndex(GameObject child, int index)
+    public virtual void SetChildIndex(GameObject child, int index)
     {
         if (child == null)
         {
