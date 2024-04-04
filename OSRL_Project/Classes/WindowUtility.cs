@@ -6,12 +6,32 @@ namespace ConsoleHelperLibrary.Classes
     public class WindowUtility
     {
 
+        
+        // Documentation: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-deletemenu
+        private const int MF_BYCOMMAND = 0x00000000;
+        
+        // Documentation: https://docs.microsoft.com/en-us/windows/win32/menurc/wm-syscommand
+        public const int SC_SIZE = 0xF000;
+        public const int SC_MINIMIZE = 0xF020;
+        public const int SC_MAXIMIZE = 0xF030;
+        
+        // Documentation: https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.dllimportattribute?view=netcore-3.1
+        [DllImport("user32.dll")]
+        // Documentation: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-deletemenu
+        public static extern int DeleteMenu(IntPtr hMenu, int nPosition, int wFlags);
+
+        [DllImport("user32.dll")]
+        // Documentation: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getsystemmenu
+        private static extern IntPtr GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+        [DllImport("kernel32.dll", ExactSpelling = true)]
+        // Documentation: https://docs.microsoft.com/en-us/windows/console/getconsolewindow
+        private static extern IntPtr GetConsoleWindow();
+
         // P/Invoke declarations.
 
         [DllImport("user32.dll")]
         public static extern bool ShowWindow(IntPtr hWnd, int cmdShow);
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr GetConsoleWindow();
 
         [DllImport("user32.dll")]
         static extern IntPtr MonitorFromWindow(IntPtr hwnd, uint dwFlags);
@@ -91,6 +111,13 @@ namespace ConsoleHelperLibrary.Classes
             Right = 0x8,
             Center = 0x10,
             Fill = 0x20
+        }
+
+        public static void DisableResizing()
+        {
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_SIZE, MF_BYCOMMAND);        // Disable resizing
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_MINIMIZE, MF_BYCOMMAND);    // Disable minimizing
+            DeleteMenu(GetSystemMenu(GetConsoleWindow(), false), SC_MAXIMIZE, MF_BYCOMMAND);    // Disable maximizing
         }
 
         public static void SetConsoleWindowPosition(AnchorWindow position)

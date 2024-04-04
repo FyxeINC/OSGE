@@ -7,8 +7,12 @@ public class Program
 {
 	static int Main(string[] args)
 	{
+        
+		W.DisableResizing();
+
 		Console.Title = "OSRL - (ESC to Quit)";
 		W.SetConsoleWindowPosition(W.AnchorWindow.Fill);
+        Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 		Console.CursorVisible = false;		
 
 		DisplayManager.Initialize();

@@ -11,9 +11,9 @@ public enum AnchorPointHorizonal
 }
 public enum AnchorPointVertical
 {
-	bottom,
-	middle,
 	top,
+	middle,
+	bottom,
 	stretch
 }
 

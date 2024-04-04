@@ -172,4 +172,24 @@ public static class UIManager
 
         currentFocus.Navigate(direction);
     }
+
+    public static void ActionTriggered(InputActionEvent inputActionEvent) 
+    {
+        if (inputActionEvent.EventAction == inputActions.UI_Navigate_Up)
+        {
+            Navigate(NavigationDirection.up);
+        }
+        else if (inputActionEvent.EventAction == inputActions.UI_Navigate_Down)
+        {
+            Navigate(NavigationDirection.down);
+        }
+        else if (inputActionEvent.EventAction == inputActions.UI_Navigate_Left)
+        {
+            Navigate(NavigationDirection.left);
+        }
+        else if (inputActionEvent.EventAction == inputActions.UI_Navigate_Right)
+        {
+            Navigate(NavigationDirection.right);
+        }
+    }
 }

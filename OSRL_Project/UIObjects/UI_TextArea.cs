@@ -4,16 +4,20 @@ using System.Text;
 
 public enum TextAlignmentHorizontal
 {
-	left, center, right
+	left, 
+    center, 
+    right
 }
 public enum TextAlignmentVertical
 {
-	top, middle, bottom
+	top, 
+    middle, 
+    bottom
 }
 
 public class UI_TextArea : UIObject
 {
-	#region Constructors
+#region Constructors
 
 	public UI_TextArea(string name, int x, int y, int width, int height,
 		string text) 
@@ -21,11 +25,13 @@ public class UI_TextArea : UIObject
 	{
 		Text = text;
 	}
-	#endregion
-	string Text;
-	public TextAlignmentHorizontal AlignmentHorizontal = TextAlignmentHorizontal.left;
-	public TextAlignmentVertical AlignmentVertical = TextAlignmentVertical.top;
+#endregion
+	protected string Text;
+	public TextAlignmentHorizontal AlignmentHorizontal  = TextAlignmentHorizontal.left;
+	public TextAlignmentVertical AlignmentVertical      = TextAlignmentVertical.top;
 
+    public void SetText(string newText) { Text = newText; 
+    }
 	public override void Draw()
 	{
 		Rect rect = GetRect();
@@ -37,7 +43,8 @@ public class UI_TextArea : UIObject
 		}
 
 		// Inspiration from
-		// https://stackoverflow.com/questions/10541124/wrap-text-to-the-next-line-when-it-exceeds-a-certain-length        
+		// https://stackoverflow.com/questions/10541124/wrap-text-to-the-next-line-when-it-exceeds-a-certain-length    
+        // This is word wrapping but also accounds for words longer than line.    
 		string[] words = toUse.Split(' ');
 
 		string text = "";
@@ -56,8 +63,6 @@ public class UI_TextArea : UIObject
 				{
 				  text += " ";  
 				}
-				//sentence.Add(line);
-				//line = "";
 				limit += rect.Width;
 			}
 
@@ -69,65 +74,49 @@ public class UI_TextArea : UIObject
 			{
 				text += word + " ";
 			}
-			//line += string.Format("{0} ", word);
 		}
-
-		// if (line.Length > 0)
-		// {
-		//     sentence.Add(line);
-		// }
 
 		
 
 		int height = rect.Height;
 		int textHeight = text.Length / rect.Width;
 		
-			int initialY = 0; // AlignmentVertical == TextAlignmentVertical.top
-			if (AlignmentVertical == TextAlignmentVertical.middle)
-			{
-				initialY = ((height-1) / 2) - (textHeight / 2);
-			}
-			else if (AlignmentVertical == TextAlignmentVertical.bottom)
-			{
-				initialY = (height-1) - (textHeight);
-			}
+        int initialY = 0; // AlignmentVertical == TextAlignmentVertical.top
+        if (AlignmentVertical == TextAlignmentVertical.middle)
+        {
+            initialY = ((height-1) / 2) - (textHeight / 2);
+        }
+        else if (AlignmentVertical == TextAlignmentVertical.bottom)
+        {
+            initialY = (height-1) - (textHeight);
+        }
 
-			for (int y = initialY; y < rect.Height; y++)
-			{
-				// TODO - get size of line with trailing whitespaces removed, push center / right based on
+        for (int y = initialY; y < rect.Height; y++)
+        {
+            // TODO - get size of line with trailing whitespaces removed, push center / right based on
+            // Potentially move whitespace around in above section?
 
-				int initialX = 0; //AlignmentHorizontal == TextAlignmentHorizontal.top
-				if (AlignmentHorizontal == TextAlignmentHorizontal.center)
-				{
-					
-				}
-				else if (AlignmentHorizontal == TextAlignmentHorizontal.right)
-				{
-					
-				}
+            int initialX = 0; //AlignmentHorizontal == TextAlignmentHorizontal.top
+            if (AlignmentHorizontal == TextAlignmentHorizontal.center)
+            {
+                
+            }
+            else if (AlignmentHorizontal == TextAlignmentHorizontal.right)
+            {
+                
+            }
 
-			
-				for (int x = 0; x < rect.Width; x++)
-				{
-					if (stringIndex < text.Length)
-					{
-						DisplayManager.Draw(x + rect.X, y + rect.Y, text[stringIndex], GetColorForeground(), GetColorBackground());
-						stringIndex += 1;
-					}
-				}
-			}
+        
+            for (int x = 0; x < rect.Width; x++)
+            {
+                if (stringIndex < text.Length)
+                {
+                    DisplayManager.Draw(x + rect.X, y + rect.Y, text[stringIndex], GetColorForeground(), GetColorBackground());
+                    stringIndex += 1;
+                }
+            }
+        }
 
-
-
-
-		if (AlignmentHorizontal == TextAlignmentHorizontal.left)
-		{       
-			
-		}   
-		else if (AlignmentHorizontal == TextAlignmentHorizontal.left && AlignmentVertical == TextAlignmentVertical.top)
-		{
-
-		}  
 		base.Draw();
 	}
 }
