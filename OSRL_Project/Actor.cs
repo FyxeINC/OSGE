@@ -1,4 +1,4 @@
 public class Actor : GameObject
 {
-  public bool HasCollision = true;
+	public bool HasCollision = true;
 }

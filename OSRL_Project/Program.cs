@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Runtime.InteropServices;
 using ConsoleRenderer;
 using W = ConsoleHelperLibrary.Classes.WindowUtility;
 
@@ -13,52 +14,62 @@ public class Program
 		DisplayManager.Initialize();
 		UIManager.Initialize();
 		
-		UI_SolidFill solidColor1 = new UI_SolidFill ("UIColor1",0,0,0,0, 
-			ConsoleColor.DarkCyan, 
-			ConsoleColor.DarkCyan,
-			ConsoleColor.DarkCyan, 
-			ConsoleColor.DarkCyan,
-			'.');
-		solidColor1.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
+		UI_SolidFill backgroundFill = new UI_SolidFill ('_');
+		backgroundFill.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
+        backgroundFill.SetColors(ConsoleColor.DarkGray, ConsoleColor.DarkBlue);
 
-		UI_Panel panel1 = new UI_Panel ("panel1", 0, 4, 30, 30, 
-			ConsoleColor.White, 
-			ConsoleColor.DarkGray, 
-			ConsoleColor.Gray, 
-			ConsoleColor.Black, 
-			BorderType.doubleLine,
-			"Panel 1");
-		panel1.SetAnchorPoint(AnchorPointHorizonal.right, AnchorPointVertical.bottom);
-		panel1.SetScreenPosition(-3,-3);
+		UI_Panel panel1 = new UI_Panel ("panel1", 0, 4, 30, 30, BorderType.doubleLine, "Panel 1");
+        panel1.SetColors(ConsoleColor.White, ConsoleColor.Black);
+		panel1.SetAnchorPoint(AnchorPointHorizonal.left, AnchorPointVertical.middle);
+		panel1.SetScreenPosition(0,0);
+		//panel1.SetOffset(10,-5,10,5);
 		panel1.SetSize(30, 30);
+		
+		// UI_TextArea areaA = new UI_TextArea ("textAreaA", 0, 2, 0, 4, 
+		// 	ConsoleColor.White, 
+		// 	ConsoleColor.Blue, 
+		// 	ConsoleColor.Gray, 
+		// 	ConsoleColor.DarkBlue, 
+		// 	"This is a Text Box, couldn't you tell?");
+		// areaA.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
+		// areaA.SetOffset(1,1,1,1);
+		// areaA.AlignmentVertical = TextAlignmentVertical.middle;
 
-		UI_TextArea areaA = new UI_TextArea ("textAreaA", 0, 2, 0, 1, 
-			ConsoleColor.White, 
-			ConsoleColor.Blue, 
-			ConsoleColor.Gray, 
-			ConsoleColor.DarkBlue, 
-			"Text Selection A");
-		UI_TextArea areaB = new UI_TextArea ("textAreaB", 0, 2, 0, 1, 
-			ConsoleColor.White, 
-			ConsoleColor.Blue, 
-			ConsoleColor.Gray, 
-			ConsoleColor.DarkBlue, 
-			"Text Selection B");
-		UI_TextArea areaC = new UI_TextArea ("textAreaC", 0, 2, 0, 1, 
-			ConsoleColor.White, 
-			ConsoleColor.Blue, 
-			ConsoleColor.Gray, 
-			ConsoleColor.DarkBlue, 
-			"Text Selection C");
+		// panel1.AddChild(areaA);
 
-		UI_VerticalGroup verticalGroup = new UI_VerticalGroup("vertG", new Point (), 0, 0);
-		verticalGroup.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
-		verticalGroup.SetOffset(1,1,1,1);
-		verticalGroup.ListAnchorPoint = AnchorPointVertical.bottom;
-		panel1.AddChild(verticalGroup);
-		verticalGroup.AddChild(areaC);
-		verticalGroup.AddChild(areaB);
-		verticalGroup.AddChild(areaA);
+		// UI_TextArea areaA = new UI_TextArea ("textAreaA", 0, 2, 0, 1, 
+		// 	ConsoleColor.White, 
+		// 	ConsoleColor.Blue, 
+		// 	ConsoleColor.Gray, 
+		// 	ConsoleColor.DarkBlue, 
+		// 	"Text Selection A");
+		// UI_TextArea areaB = new UI_TextArea ("textAreaB", 0, 2, 0, 1, 
+		// 	ConsoleColor.White, 
+		// 	ConsoleColor.Blue, 
+		// 	ConsoleColor.Gray, 
+		// 	ConsoleColor.DarkBlue, 
+		// 	"Text Selection B");
+		// UI_TextArea areaC = new UI_TextArea ("textAreaC", 0, 2, 0, 1, 
+		// 	ConsoleColor.White, 
+		// 	ConsoleColor.Blue, 
+		// 	ConsoleColor.Gray, 
+		// 	ConsoleColor.DarkBlue, 
+		// 	"Text Selection C");
+
+		// areaA.CanFocus = true;
+		// //areaB.CanFocus = true;
+		// areaC.CanFocus = true;
+
+		// UI_VerticalGroup verticalGroup = new UI_VerticalGroup("vertG", new Point (), 0, 0);
+		// verticalGroup.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
+		// verticalGroup.SetOffset(1,1,1,1);
+		// verticalGroup.ListAnchorPoint = AnchorPointVertical.bottom;
+		// panel1.AddChild(verticalGroup);
+		// verticalGroup.AddChild(areaC);
+		// verticalGroup.AddChild(areaB);
+		// verticalGroup.AddChild(areaA);
+
+		// UIHelper.CreateVerticalFocusMappings(new List<UIObject> {areaA, areaB, areaC}, true);
 
 		// UI_Panel panel2 = new UI_Panel ("panel2", 30, 10, 70, 20,
 		// 	ConsoleColor.White, 
@@ -69,30 +80,18 @@ public class Program
 		// 	"Panel 2 is alright I guess...");
 
 		// UI_TextArea areaA = new UI_TextArea ("textAreaA", 0, 2, 0, 1, 
-		// 	ConsoleColor.White, 
-		// 	ConsoleColor.Blue, 
-		// 	ConsoleColor.Gray, 
-		// 	ConsoleColor.DarkBlue, 
 		// 	"Text Selection A");
 		// areaA.UseOffsetLeftRight = true;
 		// areaA.OffsetLeft = 1;
 		// areaA.OffsetRight = 1;
 		// areaA.CanFocus = true;
 		// UI_TextArea areaB = new UI_TextArea ("textAreaB", 0, 4, 0, 1, 
-		// 	ConsoleColor.White, 
-		// 	ConsoleColor.Blue, 
-		// 	ConsoleColor.Gray, 
-		// 	ConsoleColor.DarkBlue, 
 		// 	"This is Text Selection B");
 		// areaB.UseOffsetLeftRight = true;
 		// areaB.OffsetLeft = 1;
 		// areaB.OffsetRight = 1;
 		// areaB.CanFocus = true;
 		// UI_TextArea areaC = new UI_TextArea ("textAreaB", 0, 4, 0, 1, 
-		// 	ConsoleColor.White, 
-		// 	ConsoleColor.Blue, 
-		// 	ConsoleColor.Gray, 
-		// 	ConsoleColor.DarkBlue, 
 		// 	"On the right");
 		// areaC.UseOffsetLeftRight = true;
 		// areaC.OffsetLeft = 20;
@@ -108,9 +107,9 @@ public class Program
 		// panel2.AddChild(areaC);
 		// panel2.AddChild(areaA);
 
-		UIManager.RegisterUIObject(panel1, true);
 		// UIManager.RegisterUIObject(panel2, true);
-		UIManager.RegisterUIObject(solidColor1, false);
+		UIManager.RegisterUIObject(backgroundFill, false);
+		UIManager.RegisterUIObject(panel1, true);
 
 		UIManager.Draw();
 		DisplayManager.Render();
@@ -151,6 +150,11 @@ public class Program
 			else if (keyInfo.Key == ConsoleKey.DownArrow)
 			{
 				UIManager.Navigate(NavigationDirection.down);
+			}
+
+			if (keyInfo.Key == ConsoleKey.F1)
+			{
+				UIManager.UpdateResolution();
 			}
 
 			UIManager.Draw();
