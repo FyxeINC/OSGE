@@ -19,33 +19,69 @@ public class Program
 			ConsoleColor.DarkCyan, 
 			ConsoleColor.DarkCyan,
 			'.');
-		solidColor1.UseOffsetLeftRight = true;
-		solidColor1.UseOffsetTopBottom = true;
+		solidColor1.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
 
-		UI_Panel panel1 = new UI_Panel ("panel1", 0, 4, 30, 30, 
+		UI_SolidFill panel1 = new UI_SolidFill ("panel1", 0, 4, 30, 30, 
 			ConsoleColor.White, 
 			ConsoleColor.DarkGray, 
 			ConsoleColor.Gray, 
 			ConsoleColor.Black, 
-			BorderType.doubleLine, 
-			"Panel 1 is the greatest panel ever.");
-		panel1.UseOffsetTopBottom = true;
-		panel1.OffsetTop = 30;
-		panel1.OffsetBottom = 20;
-		panel1.UseOffsetLeftRight = true;
-		panel1.OffsetLeft= 10;
-		panel1.OffsetRight = 20;
+			'.');
+		panel1.SetAnchorPoint(AnchorPointHorizonal.center, AnchorPointVertical.stretch);
+		panel1.SetScreenPosition(0,0);
+		panel1.SetSize(30, 0);
 
-		UI_Panel panel2 = new UI_Panel ("panel2", 30, 30, 70, 20,
-			ConsoleColor.White, 
-			ConsoleColor.Blue, 
-			ConsoleColor.Gray, 
-			ConsoleColor.DarkBlue, 
-			BorderType.doubleLine, 
-			"Panel 2 is alright I guess...");
+
+		// UI_Panel panel2 = new UI_Panel ("panel2", 30, 10, 70, 20,
+		// 	ConsoleColor.White, 
+		// 	ConsoleColor.Blue, 
+		// 	ConsoleColor.Gray, 
+		// 	ConsoleColor.DarkBlue, 
+		// 	BorderType.singleLine, 
+		// 	"Panel 2 is alright I guess...");
+
+		// UI_TextArea areaA = new UI_TextArea ("textAreaA", 0, 2, 0, 1, 
+		// 	ConsoleColor.White, 
+		// 	ConsoleColor.Blue, 
+		// 	ConsoleColor.Gray, 
+		// 	ConsoleColor.DarkBlue, 
+		// 	"Text Selection A");
+		// areaA.UseOffsetLeftRight = true;
+		// areaA.OffsetLeft = 1;
+		// areaA.OffsetRight = 1;
+		// areaA.CanFocus = true;
+		// UI_TextArea areaB = new UI_TextArea ("textAreaB", 0, 4, 0, 1, 
+		// 	ConsoleColor.White, 
+		// 	ConsoleColor.Blue, 
+		// 	ConsoleColor.Gray, 
+		// 	ConsoleColor.DarkBlue, 
+		// 	"This is Text Selection B");
+		// areaB.UseOffsetLeftRight = true;
+		// areaB.OffsetLeft = 1;
+		// areaB.OffsetRight = 1;
+		// areaB.CanFocus = true;
+		// UI_TextArea areaC = new UI_TextArea ("textAreaB", 0, 4, 0, 1, 
+		// 	ConsoleColor.White, 
+		// 	ConsoleColor.Blue, 
+		// 	ConsoleColor.Gray, 
+		// 	ConsoleColor.DarkBlue, 
+		// 	"On the right");
+		// areaC.UseOffsetLeftRight = true;
+		// areaC.OffsetLeft = 20;
+		// areaC.OffsetRight = 1;
+		// areaC.CanFocus = true;
+
+		// areaA.SetFocusRelation(areaB, NavigationDirection.down);
+		// areaA.SetFocusRelation(areaC, NavigationDirection.right);
+		// areaC.SetFocusRelation(areaA, NavigationDirection.left);
+		// areaB.SetFocusRelation(areaA, NavigationDirection.up);
+
+		// panel2.AddChild(areaB);
+		// panel2.AddChild(areaC);
+		// panel2.AddChild(areaA);
 
 		UIManager.RegisterUIObject(panel1, true);
-		UIManager.RegisterUIObject(panel2, true);
+		// UIManager.RegisterUIObject(panel2, true);
 		UIManager.RegisterUIObject(solidColor1, false);
 
 		UIManager.Draw();
@@ -74,17 +110,25 @@ public class Program
 			// }
 			if (keyInfo.Key == ConsoleKey.RightArrow)
 			{
-				UIManager.SetCurrentFrontmostObject(panel1);
+				UIManager.Navigate(NavigationDirection.right);
 			}
 			else if (keyInfo.Key == ConsoleKey.LeftArrow)
 			{
-				UIManager.SetCurrentFrontmostObject(panel2);				
+				UIManager.Navigate(NavigationDirection.left);			
+			}
+			else if (keyInfo.Key == ConsoleKey.UpArrow)
+			{
+				UIManager.Navigate(NavigationDirection.up);
+			}
+			else if (keyInfo.Key == ConsoleKey.DownArrow)
+			{
+				UIManager.Navigate(NavigationDirection.down);
 			}
 
 			UIManager.Draw();
 			DisplayManager.Render();
 		}
-		while(keyInfo.Key != ConsoleKey.Enter);
+		while(keyInfo.Key != ConsoleKey.Escape);
 		
 
 		

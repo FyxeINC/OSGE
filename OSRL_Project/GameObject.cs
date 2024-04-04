@@ -1,24 +1,36 @@
 
 using System.Diagnostics;
 
-public class GameObject : IDrawable
+public class GameObject : IDrawable, ITickable
 {
+    public ulong ID;
+
+    public virtual bool CanTick {get; set;} = false;
+
     // TODO - object ID?
     #region Constructors
     public GameObject()
     {
         Name = "GameObject";
         ScreenPosition = new Point(0,0);
+        this.Register();
     }
     public GameObject(string name, int x, int y) 
     {
         Name = name;
         ScreenPosition = new Point (x,y);
+        this.Register();
     }
     public GameObject(string name, Point screenPosition)
     {
         Name = name;
         ScreenPosition = screenPosition;
+        this.Register();
+    }
+
+    ~GameObject()
+    {
+        this.Unregister();
     }
     #endregion
 
@@ -32,7 +44,7 @@ public class GameObject : IDrawable
         return ConsoleColor.Black;
     }
 
-
+    
     public Point ScreenPosition;
     public GameObject Parent { get; set; }
     protected List<GameObject> ChildrenCollection = new List<GameObject> ();
@@ -70,6 +82,8 @@ public class GameObject : IDrawable
         return ScreenPosition;
     }
 
+    public virtual void Tick(float deltaTime) {}
+
     public virtual void Draw() 
     {
         for (int i = ChildrenCollection.Count-1; i >= 0; i--)
@@ -102,7 +116,7 @@ public class GameObject : IDrawable
         return ChildrenCollection.Contains(child);
     }
 
-    public void AddChild(GameObject newChild)
+    public void AddChild(GameObject newChild, bool frontmost = true)
     {
         if (newChild == null)
         {
@@ -118,8 +132,14 @@ public class GameObject : IDrawable
         {
             return;
         }
-
-        ChildrenCollection.Add(newChild);
+        if (frontmost)
+        {
+            ChildrenCollection.Insert(0, newChild);
+        }
+        else
+        {
+            ChildrenCollection.Add(newChild);
+        }
         newChild.SetParent(this);
     }
 

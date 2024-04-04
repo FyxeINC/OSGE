@@ -1,6 +1,7 @@
 
 
 using System.Data;
+using System.Diagnostics;
 using System.Dynamic;
 
 public enum NavigationDirection
@@ -20,9 +21,29 @@ public static class UIManager
         Layout = new UIObject ("Layout", 0, 0, Console.WindowWidth, Console.WindowHeight);
     }
 
+    static IFocusable CurrentFocusObject;
     public static IFocusable GetCurrentFocusObject()
     {
-        return null;
+        return CurrentFocusObject;
+    }
+
+    public static void SetCurrentFocusObject(IFocusable newFocus)
+    {
+        if (CurrentFocusObject != null)
+        {
+            CurrentFocusObject.OnUnfocused();
+        }
+
+        CurrentFocusObject = newFocus;
+        if (CurrentFocusObject != null)
+        {
+            CurrentFocusObject.OnFoucsed();
+            //Debug.WriteLine("Current focus set to " + CurrentFocusObject.ToString());
+        }
+        else
+        {
+            //Debug.WriteLine("Current focus set to NULL");
+        }
     }
 
     public static UIObject GetCurrentFrontmostObject() 
@@ -58,6 +79,7 @@ public static class UIManager
             return false;
         }
 
+        Debug.WriteLine("Current frontmost object set to " + uiObject.Name);
         Layout.SetChildIndex(uiObject, 0);
 
         UpdateCurrentFrontmostObject();
@@ -70,6 +92,17 @@ public static class UIManager
         for (int i = 0; i < Layout.GetChildrenCount(); i++)
         {
             (Layout.GetChildren()[i] as UIObject).SetIsFrontmost(i == 0);
+        }
+
+        // Get focused object
+        UIObject frontmost = GetCurrentFrontmostObject();
+        if (frontmost != null)
+        {
+            SetCurrentFocusObject(GetCurrentFrontmostObject().GetFirstFocusable());
+        }
+        else
+        {
+            SetCurrentFocusObject(null);
         }
     }
 
@@ -84,7 +117,7 @@ public static class UIManager
             return false;
         }
 
-        Layout.AddChild(uiObject);
+        Layout.AddChild(uiObject, false);
 
         if (shouldFrontmost)
         {
@@ -117,12 +150,12 @@ public static class UIManager
 
     public static void Navigate(NavigationDirection direction)
     {
-        UIObject currentFrontmost = GetCurrentFrontmostObject();
-        if (currentFrontmost == null)
+        IFocusable currentFocus = GetCurrentFocusObject();
+        if (currentFocus == null)
         {
             return;
         }
 
-        currentFrontmost.Navigate(direction);
+        currentFocus.Navigate(direction);
     }
 }

@@ -21,9 +21,9 @@ public class UI_Panel : UIObject
       UITextArea.OffsetLeft = 3;
       UITextArea.OffsetRight = 3;
 
-      this.AddChild(UITextArea);
-      this.AddChild(UIBorder);
-      this.AddChild(UISolidFill);
+      this.AddChild(UITextArea, false);
+      this.AddChild(UIBorder, false);
+      this.AddChild(UISolidFill, false);
     }
     #endregion
 
