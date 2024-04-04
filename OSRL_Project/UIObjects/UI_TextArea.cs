@@ -21,14 +21,19 @@ public class UI_TextArea : UIObject
     {
         Rect rect = GetRect();
         int stringIndex = 0;
+        string toUse = Text;
+        if (IsFocused)
+        {
+            toUse = ">" + Text;
+        }
         
         for (int x = 0; x < rect.Width; x++)
         {
             for (int y = 0; y < rect.Height; y++)
             {
-                if (stringIndex < Text.Length)
+                if (stringIndex < toUse.Length)
                 {
-                    DisplayManager.Draw(x + rect.X, y + rect.Y, Text[stringIndex], GetColorForeground(), GetColorBackground());
+                    DisplayManager.Draw(x + rect.X, y + rect.Y, toUse[stringIndex], GetColorForeground(), GetColorBackground());
                     stringIndex += 1;
                 }
             }

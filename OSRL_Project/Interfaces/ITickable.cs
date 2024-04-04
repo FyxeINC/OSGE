@@ -1,4 +1,5 @@
 public interface ITickable
 {
-  public void Tick(float time);
+  public bool CanTick {get; set;}
+  public void Tick(float deltaTime);
 }

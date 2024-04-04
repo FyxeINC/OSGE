@@ -1,6 +1,7 @@
 public interface IFocusable
 {
-  public void Navigate(NavigationDirection direction);
+  public bool CanFocus {get; set;}
+  public bool Navigate(NavigationDirection direction);
   public void OnFoucsed();
   public void OnUnfocused();
 }
