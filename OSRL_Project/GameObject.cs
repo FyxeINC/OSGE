@@ -7,6 +7,21 @@ public class GameObject : IDrawable, ITickable
 
 	public virtual bool CanTick {get; set;} = false;
 
+    
+    public bool IsDirty {get; set;} = true;
+
+    public void SetIsDirty(bool isDirty)
+    {
+        IsDirty = isDirty;
+        if (IsDirty)
+        {
+            for (int i = ChildrenCollection.Count-1; i >= 0; i--)
+            {
+                ChildrenCollection[i].SetIsDirty(true);
+            }
+        }
+    }
+
 #region Constructors
 	public GameObject()
 	{
@@ -52,6 +67,7 @@ public class GameObject : IDrawable, ITickable
 	public virtual void SetParent(GameObject newParent)
 	{
 		Parent = newParent;
+        SetIsDirty(true);
 	}
 
 	public void SetScreenPosition(Point point) { SetScreenPosition(point.X, point.Y); }
@@ -59,6 +75,7 @@ public class GameObject : IDrawable, ITickable
 	{
 		ScreenPosition.X = x;
 		ScreenPosition.Y = y;
+        SetIsDirty(true);
 	}
 
 	public virtual Point GetScreenPosition()
@@ -92,6 +109,7 @@ public class GameObject : IDrawable, ITickable
 		// {
 		//     i.Draw();
 		// }
+        IsDirty = false;
 	}
 
 	public override string ToString()

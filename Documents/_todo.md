@@ -3,12 +3,14 @@
 ## Engine
 
 - Exterior
+    - Fix issue with screen leaving ghosts
     - Logging
         - Output to file.
     - JSON interpretation 
     - Save / Load
     - GameManagement
     - Window Resize Event
+    - Disable Console quick edit mode
     - Settings
         - Clear types of SaveData (Settings / Game) per profile?
         - Set Window Size
@@ -34,6 +36,7 @@
     - Implement pixel culling / masking?
     - Modals
     - Some sort of auto navigation setup
+        - IFocusable map created from "raycast"-ing rects?
 - Game
     - Actor
         - posession
@@ -41,8 +44,8 @@
         - collision        
     - Controller
     - Components
-    - Camera
-    - Map / Level / Management
+    - Cameras
+    - Map/Level Management
     - Pathfinding
 
 ## Game

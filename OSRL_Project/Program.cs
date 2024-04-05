@@ -146,9 +146,10 @@ public class Program
 		// }
 		// while(keyInfo.Key != ConsoleKey.Escape);
 		
+        // TODO - gameloop
 		while(true)
 		{
-            panel1.SetScreenPosition(panel1.GetScreenPosition().X + 1, panel1.GetScreenPosition().Y);            
+            panel1.SetScreenPosition(panel1.GetScreenPosition().X + 2, panel1.GetScreenPosition().Y+0);            
 		    //UIManager.Draw();
             System.Threading.Thread.Sleep(50);
 		}
