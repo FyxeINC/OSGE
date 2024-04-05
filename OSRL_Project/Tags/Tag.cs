@@ -14,7 +14,7 @@ public class Tag
 
     public bool ContainsTag(Tag toCompare)
     {
-        return ToString().Contains(toCompare.ToString());
+        return (ToString().ToLower()).Contains(toCompare.ToString().ToLower());
     }
 
     public override string ToString()

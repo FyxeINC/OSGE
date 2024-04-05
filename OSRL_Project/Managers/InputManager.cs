@@ -5,6 +5,7 @@ public class InputActionEvent
         EventAction = inputAction;
     }
     public InputAction EventAction;
+    public Tag Identifier {get {return EventAction.Identifier;}}
     public bool WasConsumed = false;
 }
 
@@ -13,6 +14,40 @@ public static class InputManager
     public static List<InputMappingContext> ActiveContextCollection = new List<InputMappingContext> ();
 
     public static List<IInputHandler> InputHandlerCollection = new List<IInputHandler> ();
+        
+    public static void Initialize()
+    {
+        // DEBUG
+        ActiveContextCollection.Add(InputMappingContexts.UI_Default);
+
+        Thread thread = new Thread(() => 
+        {
+            
+		    ConsoleKeyInfo keyInfo = new ConsoleKeyInfo ();
+            do
+            {
+                while (!Console.KeyAvailable)
+                {
+                    // tick?
+                    System.Threading.Thread.Sleep(250);
+                }
+                keyInfo = Console.ReadKey(true);
+                Log.WriteLine("Key Pressed: " + keyInfo.KeyChar);
+                InputManager.OnKey(keyInfo.Key);
+
+                if (keyInfo.Key == ConsoleKey.F1)
+                {
+                    // TODO - move to UI action handling
+                    UIManager.UpdateResolution();
+                }
+                // TODO - make this into a handled action, potentially on the game manager
+                //Environment.Exit(0);
+            }
+            while(true);
+        });
+        thread.IsBackground = true;
+        thread.Start();
+    }
 
     public static void RegisterHandler(this IInputHandler handler)
     {

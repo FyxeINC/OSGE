@@ -175,26 +175,38 @@ public static class UIManager
 
     public static void ActionTriggered(InputActionEvent inputActionEvent) 
     {
-        if (inputActionEvent.EventAction == InputActions.UI_Navigate_Up)
+        if (inputActionEvent.Identifier == Tags.IA_UINavUp)
         {
             // Navigate DOES return if successful/failed, could play sound or fx here
             Navigate(NavigationDirection.up);
             inputActionEvent.WasConsumed = true;
         }
-        else if (inputActionEvent.EventAction == InputActions.UI_Navigate_Down)
+        else if (inputActionEvent.Identifier == Tags.IA_UINavDown)
         {
             Navigate(NavigationDirection.down);
             inputActionEvent.WasConsumed = true;
         }
-        else if (inputActionEvent.EventAction == InputActions.UI_Navigate_Left)
+        else if (inputActionEvent.Identifier == Tags.IA_UINavLeft)
         {
             Navigate(NavigationDirection.left);
             inputActionEvent.WasConsumed = true;
         }
-        else if (inputActionEvent.EventAction == InputActions.UI_Navigate_Right)
+        else if (inputActionEvent.Identifier == Tags.IA_UINavRight)
         {
             Navigate(NavigationDirection.right);
             inputActionEvent.WasConsumed = true;
+        }
+        else if (inputActionEvent.Identifier == Tags.IA_UIGenericBack)
+        {
+            
+        }
+        else if (inputActionEvent.Identifier == Tags.IA_UIGenericForward)
+        {
+            
+        }
+        else if (inputActionEvent.Identifier == Tags.IA_GeneralQuit)
+        {
+            Environment.Exit(0);
         }
     }
 }
