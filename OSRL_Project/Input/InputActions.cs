@@ -1,4 +1,4 @@
-public static class inputActions
+public static class InputActions
 {
 #region UI
     public static Tag CategoryUI = new Tag ("UI");

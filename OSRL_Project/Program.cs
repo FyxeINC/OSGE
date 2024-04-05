@@ -121,46 +121,21 @@ public class Program
 		ConsoleKeyInfo keyInfo = new ConsoleKeyInfo ();
 		do
 		{
+            while (!Console.KeyAvailable)
+            {
+                // tick?
+            }
 			keyInfo = Console.ReadKey(true);
 
-			// if (keyInfo.Key == ConsoleKey.RightArrow)
-			// {
-			// 	panel1.SetPosition(panel1.GetPosition().X + 10, panel1.GetPosition().Y);
-			// }
-			// else if (keyInfo.Key == ConsoleKey.LeftArrow)
-			// {
-			// 	panel1.SetPosition(panel1.GetPosition().X - 10, panel1.GetPosition().Y);
-			// }
-			// else if (keyInfo.Key == ConsoleKey.UpArrow)
-			// {
-			// 	panel1.SetPosition(panel1.GetPosition().X, panel1.GetPosition().Y - 10);
-			// }
-			// else if (keyInfo.Key == ConsoleKey.DownArrow)
-			// {
-			// 	panel1.SetPosition(panel1.GetPosition().X, panel1.GetPosition().Y + 10);
-			// }
-			if (keyInfo.Key == ConsoleKey.RightArrow)
-			{
-				UIManager.Navigate(NavigationDirection.right);
-			}
-			else if (keyInfo.Key == ConsoleKey.LeftArrow)
-			{
-				UIManager.Navigate(NavigationDirection.left);			
-			}
-			else if (keyInfo.Key == ConsoleKey.UpArrow)
-			{
-				UIManager.Navigate(NavigationDirection.up);
-			}
-			else if (keyInfo.Key == ConsoleKey.DownArrow)
-			{
-				UIManager.Navigate(NavigationDirection.down);
-			}
+            InputManager.OnKey(keyInfo.Key);
 
 			if (keyInfo.Key == ConsoleKey.F1)
 			{
+                // TODO - move to UI action handling
 				UIManager.UpdateResolution();
 			}
-
+            // TODO - make this into a handled action, potentially on the game manager
+            //Environment.Exit(0);
 			UIManager.Draw();
 			DisplayManager.Render();
 		}

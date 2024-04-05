@@ -162,34 +162,39 @@ public static class UIManager
         Layout.Draw();
     }
 
-    public static void Navigate(NavigationDirection direction)
+    public static bool Navigate(NavigationDirection direction)
     {
         IFocusable currentFocus = GetCurrentFocusObject();
         if (currentFocus == null)
         {
-            return;
+            return false;
         }
 
-        currentFocus.Navigate(direction);
+        return currentFocus.Navigate(direction);
     }
 
     public static void ActionTriggered(InputActionEvent inputActionEvent) 
     {
-        if (inputActionEvent.EventAction == inputActions.UI_Navigate_Up)
+        if (inputActionEvent.EventAction == InputActions.UI_Navigate_Up)
         {
+            // Navigate DOES return if successful/failed, could play sound or fx here
             Navigate(NavigationDirection.up);
+            inputActionEvent.WasConsumed = true;
         }
-        else if (inputActionEvent.EventAction == inputActions.UI_Navigate_Down)
+        else if (inputActionEvent.EventAction == InputActions.UI_Navigate_Down)
         {
             Navigate(NavigationDirection.down);
+            inputActionEvent.WasConsumed = true;
         }
-        else if (inputActionEvent.EventAction == inputActions.UI_Navigate_Left)
+        else if (inputActionEvent.EventAction == InputActions.UI_Navigate_Left)
         {
             Navigate(NavigationDirection.left);
+            inputActionEvent.WasConsumed = true;
         }
-        else if (inputActionEvent.EventAction == inputActions.UI_Navigate_Right)
+        else if (inputActionEvent.EventAction == InputActions.UI_Navigate_Right)
         {
             Navigate(NavigationDirection.right);
+            inputActionEvent.WasConsumed = true;
         }
     }
 }
