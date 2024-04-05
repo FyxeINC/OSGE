@@ -24,7 +24,10 @@
         - Set Window Size
         - Set Font? (might be too much)
         - FPS?
-    - Fix stupid scrollbar, potentially not possible?
+    - Fix stupid console scrollbar, potentially not possible?
+    - Audio
+        - Manager
+        - Volume levels for specific channels
 - UI
     - Text
         - Center align
@@ -36,6 +39,9 @@
     - CombinationObjects
         - Progress Bar
         - Button
+        - Slider Bar
+    - Implement Scrolling
+    - Implement pixel culling / masking?
     - Modals
     - Some sort of auto navigation setup
 - Game
