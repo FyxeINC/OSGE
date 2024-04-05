@@ -35,7 +35,7 @@ public static class DisplayManager
             return;
         }
         
-        Pixel pixel = m_DisplayCanvas.Get(x,y, false);
+        Pixel pixel = m_DisplayCanvas.Get(x,y, true);
 
         ConsoleColor backgroundToUse = pixel.Background;
         if (background.HasValue)
@@ -81,6 +81,7 @@ public static class DisplayManager
         if (TimeSinceLastFrame > (1 / FPSTarget) * 1000)
         {
             TimeSinceLastFrame = 0;
+            // TODO - I dislike this, but I don't have a way to force Tick positining yet
             UIManager.Draw();
             Render();
         }
