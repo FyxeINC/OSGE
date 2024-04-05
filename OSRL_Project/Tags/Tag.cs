@@ -1,5 +1,5 @@
 
-public class Tag
+public class Tag : IEquatable<Tag>
 {
     public static char TagSeparator = '.'; 
 
@@ -29,5 +29,29 @@ public class Tag
             }
         }
         return toReturn;
+    }
+
+    public override bool Equals(object obj)
+    {
+        return this.ToString() == obj.ToString();
+    }
+    public bool Equals(Tag other)
+    {
+        return this.ToString() == other.ToString();
+    }
+
+    public static bool operator== (Tag a, Tag b)
+    {
+        return a.ToString() == b.ToString();
+    }    
+
+    public static bool operator!= (Tag a, Tag b)
+    {
+        return a.ToString() != b.ToString();
+    }
+
+    public override int GetHashCode()
+    {
+        return ToString().GetHashCode();
     }
 }

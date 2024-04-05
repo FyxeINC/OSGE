@@ -5,7 +5,7 @@ public class InputActionEvent
         EventAction = inputAction;
     }
     public InputAction EventAction;
-    public Tag Identifier {get {return EventAction.Identifier;}}
+    public Tag IdentifierTag {get {return EventAction.Identifier;}}
     public bool WasConsumed = false;
 }
 
@@ -35,11 +35,11 @@ public static class InputManager
                 Log.WriteLine("Key Pressed: " + keyInfo.KeyChar);
                 InputManager.OnKey(keyInfo.Key);
 
-                if (keyInfo.Key == ConsoleKey.F1)
-                {
-                    // TODO - move to UI action handling
-                    UIManager.UpdateResolution();
-                }
+                // if (keyInfo.Key == ConsoleKey.F1)
+                // {
+                //     // TODO - move to UI action handling
+                //     UIManager.UpdateResolution();
+                // }
                 // TODO - make this into a handled action, potentially on the game manager
                 //Environment.Exit(0);
             }
