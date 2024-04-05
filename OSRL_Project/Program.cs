@@ -15,6 +15,7 @@ public class Program
         Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 		Console.CursorVisible = false;		
 
+		LocalizationManager.Initialize();
 		DisplayManager.Initialize();
 		UIManager.Initialize();
 		
@@ -22,7 +23,7 @@ public class Program
 		backgroundFill.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
         backgroundFill.SetColors(ConsoleColor.DarkGray, ConsoleColor.DarkBlue);
 
-		UI_Panel panel1 = new UI_Panel ("panel1", 0, 4, 30, 30, BorderType.doubleLine, "Panel 1");
+		UI_Panel panel1 = new UI_Panel ("panel1", 0, 4, 30, 30, BorderType.doubleLine, Tags.Loc_Play.GetLocString());
         panel1.SetColors(ConsoleColor.White, ConsoleColor.Black);
 		panel1.SetAnchorPoint(AnchorPointHorizonal.left, AnchorPointVertical.middle);
 		panel1.SetScreenPosition(0,0);
@@ -118,29 +119,34 @@ public class Program
 		UIManager.Draw();
 		DisplayManager.Render();
 
-		ConsoleKeyInfo keyInfo = new ConsoleKeyInfo ();
-		do
-		{
-            while (!Console.KeyAvailable)
-            {
-                // tick?
-            }
-			keyInfo = Console.ReadKey(true);
+		InputManager.Initialize();
+		// ConsoleKeyInfo keyInfo = new ConsoleKeyInfo ();
+		// do
+		// {
+        //     while (!Console.KeyAvailable)
+        //     {
+        //         // tick?
+        //     }
+		// 	keyInfo = Console.ReadKey(true);
 
-            InputManager.OnKey(keyInfo.Key);
+        //     InputManager.OnKey(keyInfo.Key);
 
-			if (keyInfo.Key == ConsoleKey.F1)
-			{
-                // TODO - move to UI action handling
-				UIManager.UpdateResolution();
-			}
-            // TODO - make this into a handled action, potentially on the game manager
-            //Environment.Exit(0);
-			UIManager.Draw();
-			DisplayManager.Render();
-		}
-		while(keyInfo.Key != ConsoleKey.Escape);
+		// 	if (keyInfo.Key == ConsoleKey.F1)
+		// 	{
+        //         // TODO - move to UI action handling
+		// 		UIManager.UpdateResolution();
+		// 	}
+        //     // TODO - make this into a handled action, potentially on the game manager
+        //     //Environment.Exit(0);
+		// 	UIManager.Draw();
+		// 	DisplayManager.Render();
+		// }
+		// while(keyInfo.Key != ConsoleKey.Escape);
 		
+		while(true)
+		{
+
+		}
 
 		
 		//Debug.WriteLine(MainUIObject.Width + "  |  " + MainUIObject.Height);
