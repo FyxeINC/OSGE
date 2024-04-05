@@ -20,6 +20,8 @@ public class Program
 		LocalizationManager.Initialize();
 		DisplayManager.Initialize();
 		UIManager.Initialize();
+		InputManager.Initialize();
+        TimeManager.Initialize();
 #endregion
 		
 		UI_SolidFill backgroundFill = new UI_SolidFill ('_');
@@ -119,10 +121,8 @@ public class Program
 		UIManager.RegisterUIObject(backgroundFill, false);
 		UIManager.RegisterUIObject(panel1, true);
 
-		UIManager.Draw();
-		DisplayManager.Render();
+		//DisplayManager.Render();
 
-		InputManager.Initialize();
 		// ConsoleKeyInfo keyInfo = new ConsoleKeyInfo ();
 		// do
 		// {
@@ -148,7 +148,9 @@ public class Program
 		
 		while(true)
 		{
-
+            panel1.SetScreenPosition(panel1.GetScreenPosition().X + 1, panel1.GetScreenPosition().Y);            
+		    //UIManager.Draw();
+            System.Threading.Thread.Sleep(50);
 		}
 
 		

@@ -5,7 +5,9 @@
 ### Step 1
 
 - Ensure you have a .csv Setup in the **/Localization** folder
+    - Example: "Lang_en.cs"
 - Entries should be (LanguageTag, StringTag, LocalizedString)
+    - Example: "en, Localization.Panel, Panel" 
 
 ### Step 2 (Optional)
 

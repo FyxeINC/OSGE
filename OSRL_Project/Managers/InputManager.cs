@@ -34,14 +34,6 @@ public static class InputManager
                 keyInfo = Console.ReadKey(true);
                 Log.WriteLine("Key Pressed: " + keyInfo.KeyChar);
                 InputManager.OnKey(keyInfo.Key);
-
-                // if (keyInfo.Key == ConsoleKey.F1)
-                // {
-                //     // TODO - move to UI action handling
-                //     UIManager.UpdateResolution();
-                // }
-                // TODO - make this into a handled action, potentially on the game manager
-                //Environment.Exit(0);
             }
             while(true);
         });
@@ -74,6 +66,7 @@ public static class InputManager
         {
             InputActionEvent actionEvent = new InputActionEvent (ia);
             
+            // TODO - find a way to make this a part of IHCollection
             UIManager.ActionTriggered(actionEvent);
             if (actionEvent.WasConsumed)
             {
