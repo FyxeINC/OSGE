@@ -175,38 +175,40 @@ public static class UIManager
 
     public static void ActionTriggered(InputActionEvent inputActionEvent) 
     {
-        if (inputActionEvent.Identifier == Tags.IA_UINavUp)
+        if (inputActionEvent.IdentifierTag == Tags.IA_UINavUp)
         {
             // Navigate DOES return if successful/failed, could play sound or fx here
             Navigate(NavigationDirection.up);
-            inputActionEvent.WasConsumed = true;
         }
-        else if (inputActionEvent.Identifier == Tags.IA_UINavDown)
+        else if (inputActionEvent.IdentifierTag == Tags.IA_UINavDown)
         {
             Navigate(NavigationDirection.down);
-            inputActionEvent.WasConsumed = true;
         }
-        else if (inputActionEvent.Identifier == Tags.IA_UINavLeft)
+        else if (inputActionEvent.IdentifierTag == Tags.IA_UINavLeft)
         {
             Navigate(NavigationDirection.left);
-            inputActionEvent.WasConsumed = true;
         }
-        else if (inputActionEvent.Identifier == Tags.IA_UINavRight)
+        else if (inputActionEvent.IdentifierTag == Tags.IA_UINavRight)
         {
             Navigate(NavigationDirection.right);
-            inputActionEvent.WasConsumed = true;
         }
-        else if (inputActionEvent.Identifier == Tags.IA_UIGenericBack)
+        else if (inputActionEvent.IdentifierTag == Tags.IA_UIGenericBack)
         {
             
         }
-        else if (inputActionEvent.Identifier == Tags.IA_UIGenericForward)
+        else if (inputActionEvent.IdentifierTag == Tags.IA_UIGenericForward)
         {
             
         }
-        else if (inputActionEvent.Identifier == Tags.IA_GeneralQuit)
+        else if (inputActionEvent.IdentifierTag == Tags.IA_GeneralQuit)
         {
+            // TODO - Move to game management?
             Environment.Exit(0);
+        }
+
+        if (inputActionEvent.IdentifierTag.ContainsTag(Tags.IA_CategoryUI))
+        {
+            inputActionEvent.WasConsumed = true;
         }
     }
 }

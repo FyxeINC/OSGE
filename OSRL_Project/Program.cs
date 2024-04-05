@@ -15,15 +15,18 @@ public class Program
         Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 		Console.CursorVisible = false;		
 
+#region Initialize Managers
+        Log.Initialize();
 		LocalizationManager.Initialize();
 		DisplayManager.Initialize();
 		UIManager.Initialize();
+#endregion
 		
 		UI_SolidFill backgroundFill = new UI_SolidFill ('_');
 		backgroundFill.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
         backgroundFill.SetColors(ConsoleColor.DarkGray, ConsoleColor.DarkBlue);
 
-		UI_Panel panel1 = new UI_Panel ("panel1", 0, 4, 30, 30, BorderType.doubleLine, Tags.Loc_Play.GetLocString());
+		UI_Panel panel1 = new UI_Panel ("panel1", 0, 4, 30, 30, BorderType.doubleLine, Tags.Loc_Panel.GetString());
         panel1.SetColors(ConsoleColor.White, ConsoleColor.Black);
 		panel1.SetAnchorPoint(AnchorPointHorizonal.left, AnchorPointVertical.middle);
 		panel1.SetScreenPosition(0,0);

@@ -1,4 +1,4 @@
-# UI MANAGEMENT
+# UI 
 
 **UIObjects** are a subclass of **GameObject** that have additional properties:
 - They have a **Rect**

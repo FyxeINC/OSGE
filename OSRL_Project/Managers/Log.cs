@@ -3,6 +3,11 @@ using System.Diagnostics;
 public static class Log
 {
 	// TODO - i/o to file
+
+    public static void Initialize()
+    {
+        
+    }
 	
 	public static void Warning(string text)
 	{

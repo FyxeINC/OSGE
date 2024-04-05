@@ -21,7 +21,9 @@ public static class Tags
 
 #region Localization
     // Languages
-    public static Tag Lang_EN = new Tag ("Localization.English");
+    public static Tag Lang_EN = new Tag ("en");
+    public static Tag Lang_ES = new Tag ("es");
+    public static Tag Lang_FR = new Tag ("fr");
     
     // Strings
     public static Tag Loc_Yes = new Tag ("Localization.Yes");
@@ -30,6 +32,7 @@ public static class Tags
     public static Tag Loc_Settings = new Tag ("Localization.Settings");
     public static Tag Loc_Play = new Tag ("Localization.Play");
     public static Tag Loc_PressAnyKey = new Tag ("Localization.PressAnyKey");
+    public static Tag Loc_Panel = new Tag ("Localization.Panel");
     
 #endregion
 }

@@ -3,7 +3,6 @@
 ## Engine
 
 - Exterior
-    - File I/O
     - Logging
         - Output to file.
     - JSON interpretation 
@@ -11,13 +10,7 @@
     - Time Management
         - Framerate
         - Ticking
-    - Localization tables and strings
-    - Tag system
     - GameManagement
-    - Input
-        - Routing
-        - Handling
-        - Mapping
     - Window Resize Event
     - Settings
         - Clear types of SaveData (Settings / Game) per profile?

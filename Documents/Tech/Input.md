@@ -1,4 +1,4 @@
-# Input Management
+# Input 
 
 Actions drive the input of the program.
 Actions have a list of Keys that can trigger them.
