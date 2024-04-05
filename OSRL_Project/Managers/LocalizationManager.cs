@@ -68,15 +68,23 @@ public static class LocalizationManager
 
         return LanguageDictionary[CurrentLanguage].GetStringForTag(locTag);
     }
+
+    public static string GetLocalizedString(this string nonLocString)
+    {
+        // TODO - cycle through strings and find
+        // probably a terrible idea
+        return "NOT.IMPLEMENTED";
+    }
     
-    // TODO - for usability in future
-    // public static string GetOrCreateString(this Tag locTag)
+    // TODO - for usability in future, need to output loc file if changes were made
+    // public static string GetOrCreateString(this Tag locTag, Tag langTag = Tags.Lang_En)
     // {
     //     if (!LanguageDictionary.ContainsKey(CurrentLanguage))
     //     {
     //         return "LANG.NOT.FOUND";
     //     }
 
+    //     this.IsLocDirty = true;
     //     return LanguageDictionary[CurrentLanguage].GetStringForTag(locTag);
     // }
 

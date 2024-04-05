@@ -16,6 +16,8 @@ Currently Includes:
 - A Tag based architecture and searching systems
 - A Localization system for modifying user facing text with minimal code effort
     - Soon to be CSV import / export
+- A tickable interface that allows objects to react to time
+- A display management system that attempts to render at a set FPS and only redraws when dirty
 
 ## Resources Used
 
