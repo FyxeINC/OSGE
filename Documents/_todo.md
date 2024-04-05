@@ -7,9 +7,6 @@
         - Output to file.
     - JSON interpretation 
     - Save / Load
-    - Time Management
-        - Framerate
-        - Ticking
     - GameManagement
     - Window Resize Event
     - Settings
