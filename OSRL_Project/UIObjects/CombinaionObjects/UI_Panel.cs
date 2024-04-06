@@ -17,7 +17,7 @@ public class UI_Panel : UIObject
 		UITextArea = new UI_TextArea (name + "_Text", 0, 0, 0, 1, panelTitle);
 		UITextArea.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.top);
 		UITextArea.SetOffset(0,0,3,3);
-		UITextArea.SetScreenPosition(0, 0);
+		UITextArea.SetLocalPosition(0, 0);
 		UITextArea.SetSize(10, 1);
 
 		this.AddChild(UITextArea, false);

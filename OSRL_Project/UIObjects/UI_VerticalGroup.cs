@@ -27,7 +27,7 @@ public class UI_VerticalGroup : UI_GroupBase
                     newHeight = GroupObjectHeight;
                 }
 				childObject.SetSize(0, newHeight);
-				childObject.SetScreenPosition(0, startingHeight);
+				childObject.SetLocalPosition(0, startingHeight);
 				startingHeight += newHeight + Spacing;
 			}
 		}
@@ -44,7 +44,7 @@ public class UI_VerticalGroup : UI_GroupBase
                     newHeight = GroupObjectHeight;
                 }
 				childObject.SetSize(0, newHeight);
-				childObject.SetScreenPosition(0, startingHeight);
+				childObject.SetLocalPosition(0, startingHeight);
 				startingHeight -= newHeight + Spacing;
 			}
 		}

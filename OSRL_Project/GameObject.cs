@@ -3,12 +3,50 @@ using System.Diagnostics;
 
 public class GameObject : IDrawable, ITickable
 {
-	public ulong ID;
 
-	public virtual bool CanTick {get; set;} = false;
+#region ITickable
+    /// <summary>
+    /// DO NOT set to true, call SetCanTick
+    /// </summary>
+	public virtual bool CanTick {get; set;} = false;    
 
-    
+    /// <summary>
+    /// Change if this GameObject recieves Tick() updates. Note: false by default, must be enabled post construction.
+    /// </summary>
+    public void SetCanTick(bool canTick)
+    {
+        if (canTick == CanTick)
+        {
+            return;
+        }
+
+        CanTick = canTick;
+
+        if (CanTick)
+        {
+            TimeManager.Register(this);
+        }
+        else
+        {
+            TimeManager.Unregister(this);
+        }
+    }
+
+	public virtual void Tick(float deltaTime) {}
+#endregion
+
+#region IDrawable    
     public bool IsDirty {get; set;} = true;
+    
+	public virtual ConsoleColor GetColorForeground()
+	{
+		return ConsoleColor.White;
+	}
+
+	public virtual ConsoleColor? GetColorBackground()
+	{
+		return null;
+	}
 
     public void SetIsDirty(bool isDirty)
     {
@@ -22,8 +60,25 @@ public class GameObject : IDrawable, ITickable
         }
     }
 
-#region Constructors
-	public GameObject()
+    /// <summary>
+    /// Draws children and sets IsDirty to false. Call this function AFTER you do your draw logic to ensure your child objects are in front.
+    /// </summary>
+	public virtual void Draw() 
+	{
+		for (int i = ChildrenCollection.Count-1; i >= 0; i--)
+		{
+			ChildrenCollection[i].Draw();
+		}
+		// foreach (var i in ChildrenCollection)
+		// {
+		//     i.Draw();
+		// }
+        IsDirty = false;
+	}
+#endregion
+
+#region Constructors	
+    public GameObject()
 	{
 		Name = "GameObject";
 		ScreenPosition = new Point(0,0);
@@ -47,31 +102,27 @@ public class GameObject : IDrawable, ITickable
 		this.Unregister();
 	}
 #endregion
-
-	public virtual ConsoleColor GetColorForeground()
-	{
-		return ConsoleColor.White;
-	}
-
-	public virtual ConsoleColor? GetColorBackground()
-	{
-		return null;
-	}
 		
-	public Point ScreenPosition;
+	
+    /// <summary>
+    /// The unique ID assigned in the GameObject's construction.
+    /// </summary>
+	public ulong ID;
+    public Point ScreenPosition;
+    /// <summary>
+    /// The GameObject that this object is parented to. Can be null. This object's position will be relative to its parent's position.
+    /// </summary>
 	public GameObject Parent { get; set; }
-	protected List<GameObject> ChildrenCollection = new List<GameObject> ();
-
+	protected List<GameObject> ChildrenCollection = new List<GameObject> ();    
 	public string Name = "GameObject";
-
 	public virtual void SetParent(GameObject newParent)
 	{
 		Parent = newParent;
         SetIsDirty(true);
 	}
 
-	public void SetScreenPosition(Point point) { SetScreenPosition(point.X, point.Y); }
-	public void SetScreenPosition(int x, int y)
+	public void SetLocalPosition(Point point) { SetLocalPosition(point.X, point.Y); }
+	public void SetLocalPosition(int x, int y)
 	{
 		ScreenPosition.X = x;
 		ScreenPosition.Y = y;
@@ -95,26 +146,6 @@ public class GameObject : IDrawable, ITickable
 	public Point GetLocalPosition()
 	{
 		return ScreenPosition;
-	}
-
-	public virtual void Tick(float deltaTime) {}
-
-	public virtual void Draw() 
-	{
-		for (int i = ChildrenCollection.Count-1; i >= 0; i--)
-		{
-			ChildrenCollection[i].Draw();
-		}
-		// foreach (var i in ChildrenCollection)
-		// {
-		//     i.Draw();
-		// }
-        IsDirty = false;
-	}
-
-	public override string ToString()
-	{
-		return $"{ID}:{Name}";
 	}
 
 	public List<GameObject> GetChildren()
@@ -196,5 +227,10 @@ public class GameObject : IDrawable, ITickable
 			return -1;
 		}
 		return ChildrenCollection.IndexOf(child);
+	}
+    
+	public override string ToString()
+	{
+		return $"{ID}:{Name}";
 	}
 }
