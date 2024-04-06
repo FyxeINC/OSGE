@@ -1,25 +1,6 @@
 public interface ITickable
 {
-  public bool CanTick {get; set;}
-
-  public void SetTickable(bool canTick)
-  {
-    if (canTick == CanTick)
-    {
-        return;
-    }
-
-    CanTick = canTick;
-
-    if (CanTick)
-    {
-        TimeManager.Register(this);
-    }
-    else
-    {
-        TimeManager.Unregister(this);
-    }
-  }
+  bool CanTick {get; set;}
 
   /// <summary>
   /// Called inbetween frames

@@ -8,11 +8,25 @@ public class Program
 	static int Main(string[] args)
 	{
         
-		W.DisableResizing();
 
 		Console.Title = "OSRL - (ESC to Quit)";
-		W.SetConsoleWindowPosition(W.AnchorWindow.Fill);
+		
+        // Maximizes window
+        // TODO - Create setting and set to last saved setting
+        W.SetConsoleWindowPosition(W.AnchorWindow.Fill);
+
+        // Disables resizing of the window
+        // TODO - prevent Windowkey + arrow key resizing
+		W.DisableResizing();
+
+        // Disables mouse interactions with the screen
+        // This prevents selecting parts of the console which in turn causes our renderer to pause displaying
+        W.DisableQuickSelect(); 
+
+        // Supposed to fix scrollbar showing up, potentially useless
         Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
+
+        // TODO - Create cursor manager
 		Console.CursorVisible = false;		
 
 #region Initialize Managers
@@ -31,7 +45,7 @@ public class Program
 		UI_Panel panel1 = new UI_Panel ("panel1", 0, 4, 30, 30, BorderType.doubleLine, Tags.Loc_Panel.GetString());
         panel1.SetColors(ConsoleColor.White, ConsoleColor.Black);
 		panel1.SetAnchorPoint(AnchorPointHorizonal.left, AnchorPointVertical.middle);
-		panel1.SetScreenPosition(0,0);
+		panel1.SetLocalPosition(0,0);
 		//panel1.SetOffset(10,-5,10,5);
 		panel1.SetSize(30, 30);
 		
@@ -121,6 +135,7 @@ public class Program
 		UIManager.RegisterUIObject(backgroundFill, false);
 		UIManager.RegisterUIObject(panel1, true);
 
+        //UIManager.Draw();
 		//DisplayManager.Render();
 
 		// ConsoleKeyInfo keyInfo = new ConsoleKeyInfo ();
@@ -147,9 +162,10 @@ public class Program
 		// while(keyInfo.Key != ConsoleKey.Escape);
 		
         // TODO - gameloop
+        System.Threading.Thread.Sleep(1000);
 		while(true)
 		{
-            panel1.SetScreenPosition(panel1.GetScreenPosition().X + 2, panel1.GetScreenPosition().Y+0);            
+            panel1.SetLocalPosition(panel1.GetScreenPosition().X + 2, panel1.GetScreenPosition().Y+0);            
 		    //UIManager.Draw();
             System.Threading.Thread.Sleep(50);
 		}

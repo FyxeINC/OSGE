@@ -8,12 +8,17 @@ public static class DisplayManager
     private static ConsoleCanvas m_DisplayCanvas = null;
     public static bool IsDirty = true;
 
+    /// <summary>
+    /// The frames per second to attempt to tick all objects by.
+    /// </summary>
     public static int FPSTarget = 120;
     public static long TimeSinceLastFrame = 0;
 
     public static void Initialize()
     {        
-        m_DisplayCanvas = new ConsoleCanvas(false, false);
+        // Window Height is given -1 to prevent the single scroll that occurs. 
+        // TODO - investigate, there may be a way to prevent scrolling
+        m_DisplayCanvas = new ConsoleCanvas(Console.WindowWidth, Console.WindowHeight-1, false, false);
     }
 
     /// <summary>
@@ -62,11 +67,16 @@ public static class DisplayManager
     // }
 
     /// <summary>
-    /// Renders the current screen if it is dirty
+    /// Renders the current screen if dirty.
     /// </summary>
     public static void Render(bool force = false)
     {
-        if ((m_DisplayCanvas == null || IsDirty == false) && !force)
+        if (m_DisplayCanvas == null )
+        {
+            return;
+        }
+
+        if (!IsDirty && !force)
         {
             return;
         }

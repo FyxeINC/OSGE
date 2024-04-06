@@ -43,7 +43,7 @@ public class UI_HorizontalGroup : UIObject
 				UIObject childObject = (GetChildren()[i] as UIObject);
 				childObject.SetAnchorPoint(AnchorPointHorizonal.left, AnchorPointVertical.stretch);
 				childObject.SetSize(ListObjectWidth, 0);
-				childObject.SetScreenPosition(startingWidth, 0);
+				childObject.SetLocalPosition(startingWidth, 0);
 				startingWidth += ListObjectWidth + Spacing;
 			}
 		}

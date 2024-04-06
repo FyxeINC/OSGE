@@ -37,7 +37,7 @@ public class AnchorPoint
 
 public class UIObject : GameObject, IFocusable
 {
-	#region Focus
+#region Focus
 	public virtual bool CanFocus { get; set; }
 	public bool IsFocused
 	{
@@ -46,9 +46,9 @@ public class UIObject : GameObject, IFocusable
 			return UIManager.GetCurrentFocusObject() == this;
 		}
 	}
-	#endregion
+#endregion
 
-	#region Constructors
+#region Constructors
 	public UIObject(string name, Point screenPosition, int width, int height)
 		: base(name, screenPosition)
 	{
@@ -64,16 +64,16 @@ public class UIObject : GameObject, IFocusable
 	}
 
 	// TODO - constructor for fill/stretch
-	#endregion
+#endregion
 
-	#region Colors
+#region Colors
 	public ConsoleColor ColorForegroundFrontmostFocused { get; set; }
 	public ConsoleColor ColorForegroundFrontmostNotFocused { get; set; }
 	public ConsoleColor ColorForegroundNotFrontmost { get; set; }
 	public ConsoleColor? ColorBackgroundFrontmostFocused { get; set; } = null;
 	public ConsoleColor? ColorBackgroundFrontmostNotFocused { get; set; } = null;
 	public ConsoleColor? ColorBackgroundNotFrontmost { get; set; } = null;
-	#endregion
+#endregion
 
 	public AnchorPoint CurrentAnchorPoint = new AnchorPoint();
 	public int Width;
@@ -84,6 +84,8 @@ public class UIObject : GameObject, IFocusable
 	public int OffsetRight;
 
 	public bool IsFrontmost;
+
+	public Dictionary<NavigationDirection, IFocusable> FocusCollection { get; set; } = new Dictionary<NavigationDirection, IFocusable>();    
     
     public virtual void SetColors(ConsoleColor foreground, ConsoleColor? background)
     {
@@ -130,8 +132,6 @@ public class UIObject : GameObject, IFocusable
 		    ColorBackgroundNotFrontmost = null;
         }
 	}
-
-	public Dictionary<NavigationDirection, IFocusable> FocusCollection { get; set; } = new Dictionary<NavigationDirection, IFocusable>();
 
 	public void SetAnchorPoint(AnchorPointHorizonal horizontal, AnchorPointVertical vertical)
 	{

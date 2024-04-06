@@ -5,7 +5,20 @@ namespace ConsoleHelperLibrary.Classes
 {
     public class WindowUtility
     {
+        //https://stackoverflow.com/questions/13656846/how-to-programmatic-disable-c-sharp-console-applications-quick-edit-mode
+        const uint ENABLE_QUICK_EDIT = 0x0040;
 
+        // STD_INPUT_HANDLE (DWORD): -10 is the standard input device.
+        const int STD_INPUT_HANDLE = -10;
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern IntPtr GetStdHandle(int nStdHandle);
+
+        [DllImport("kernel32.dll")]
+        static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint lpMode);
+
+        [DllImport("kernel32.dll")]
+        static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint dwMode);
         
         // Documentation: https://docs.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-deletemenu
         private const int MF_BYCOMMAND = 0x00000000;
@@ -111,6 +124,28 @@ namespace ConsoleHelperLibrary.Classes
             Right = 0x8,
             Center = 0x10,
             Fill = 0x20
+        }
+
+        //https://stackoverflow.com/questions/13656846/how-to-programmatic-disable-c-sharp-console-applications-quick-edit-mode
+        public static void DisableQuickSelect()
+        {
+            IntPtr consoleHandle = GetStdHandle(STD_INPUT_HANDLE);
+
+            // get current console mode
+            uint consoleMode;
+            if (!GetConsoleMode(consoleHandle, out consoleMode)) {
+                Log.Error("Unable to get console mode.");
+                return;
+            }
+
+            // Clear the quick edit bit in the mode flags
+            consoleMode &= ~ENABLE_QUICK_EDIT;
+
+            // set the new mode
+            if (!SetConsoleMode(consoleHandle, consoleMode)) {
+                Log.Error("Unable to set console mode");
+                return;
+            }
         }
 
         public static void DisableResizing()

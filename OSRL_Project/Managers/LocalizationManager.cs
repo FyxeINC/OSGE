@@ -88,11 +88,17 @@ public static class LocalizationManager
     //     return LanguageDictionary[CurrentLanguage].GetStringForTag(locTag);
     // }
 
+    /// <summary>
+    /// Sets the current language. 
+    /// </summary>
     public static void SetLanguage(string languageString) 
     {
         SetLanguage(new string (languageString));
     }
 
+    /// <summary>
+    /// Sets the current language. 
+    /// </summary>
     public static void SetLanguage(Tag languageTag)
     {
         CurrentLanguage = languageTag;

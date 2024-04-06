@@ -28,6 +28,12 @@ public static class TimeManager
         thread.Start();
     }
 
+    public static long GetTime()
+    {
+        // TODO - verify that this works how I think it does
+        return DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
+    }
+
     public static void TickTickables(long deltaTime)
     {
         foreach (var i in TickableCollection)
