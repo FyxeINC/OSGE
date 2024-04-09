@@ -9,6 +9,8 @@ public static class LocalizationManager
 
     public static List<LanguageString> AllStrings = new List<LanguageString> ();
 
+    public static bool IsLocalizationDirty = false;
+
     public static void Initialize()
     {        
         System.IO.Directory.CreateDirectory("Localization");
@@ -76,15 +78,31 @@ public static class LocalizationManager
         return "NOT.IMPLEMENTED";
     }
     
-    // TODO - for usability in future, need to output loc file if changes were made
-    // public static string GetOrCreateString(this Tag locTag, Tag langTag = Tags.Lang_En)
+
+    // I'm unsure if this is a decent practice. Potentially encourages bad standards.
+
+    public static void CreateLocTag(Tag newLocTag)
+    {
+        #if DEBUG
+        // TODO 
+        #endif
+    }
+
+    // /// <summary>
+    // /// If in a release build, it will attempt to get a string for a localization tag.
+    // /// If in a debug build, it will create a string if none are found.
+    // /// </summary>
+    // public static string GetOrCreateString(this Tag locTag, Tag langTag)
     // {
     //     if (!LanguageDictionary.ContainsKey(CurrentLanguage))
     //     {
     //         return "LANG.NOT.FOUND";
     //     }
 
-    //     this.IsLocDirty = true;
+        
+    //     #if DEBUG
+    //     IsLocalizationDirty = true;
+    //     #endif
     //     return LanguageDictionary[CurrentLanguage].GetStringForTag(locTag);
     // }
 

@@ -4,4 +4,5 @@ public interface IFocusable
   public bool Navigate(NavigationDirection direction);
   public void OnFoucsed();
   public void OnUnfocused();
+  public Rect GetScreenSpaceRect();
 }

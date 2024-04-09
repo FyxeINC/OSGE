@@ -26,6 +26,8 @@ public static class UIManager
         Layout.SetSize(Console.WindowWidth, Console.WindowHeight);
     }
 
+    public static List<IFocusable> AvailableFocusableCollection = new List<IFocusable>();
+
     static IFocusable CurrentFocusObject;
     public static IFocusable GetCurrentFocusObject()
     {
@@ -94,6 +96,7 @@ public static class UIManager
         Debug.WriteLine("Current frontmost object set to " + uiObject.Name);
         Layout.SetChildIndex(uiObject, 0);
 
+        AvailableFocusableCollection = uiObject.GetAllFocusables();
         UpdateCurrentFrontmostObject();
         
         return true;
@@ -210,5 +213,10 @@ public static class UIManager
         {
             inputActionEvent.WasConsumed = true;
         }
+    }
+
+    public static IFocusable FocusRaycast(int x, int y, int width, NavigationDirection dir, List<IFocusable> toIgnore)
+    {
+        return null;
     }
 }
