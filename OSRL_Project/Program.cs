@@ -38,7 +38,7 @@ public class Program
         TimeManager.Initialize();
 #endregion
 		
-		UI_SolidFill backgroundFill = new UI_SolidFill ('_');
+		UI_SolidFill backgroundFill = new UI_SolidFill (' ');
 		backgroundFill.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
         backgroundFill.SetColors(ConsoleColor.DarkGray, ConsoleColor.DarkBlue);
 

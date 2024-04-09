@@ -258,6 +258,23 @@ public class UIObject : GameObject, IFocusable
 		}
 		return foundFocusable;
 	}
+
+	public List<IFocusable> GetAllFocusables()
+	{
+		 List<IFocusable> toReturn = new List<IFocusable> ();
+		if (this.CanFocus)
+		{
+			toReturn.Add(this as IFocusable);
+		}
+
+		foreach (var i in ChildrenCollection)
+		{
+			toReturn.AddRange((i as UIObject).GetAllFocusables());
+		}
+
+		return toReturn;
+	}
+
 	public virtual void OnFoucsed() { }
 	public virtual void OnUnfocused() { }
 
@@ -320,6 +337,11 @@ public class UIObject : GameObject, IFocusable
 			newPoint.Y += OffsetTop;
 		}
 		return newPoint;
+	}
+
+	public Rect GetScreenSpaceRect()
+	{
+		return GetRect();
 	}
 
 	public Rect GetRect()
