@@ -12,29 +12,30 @@ public enum NavigationDirection
     right
 }
 
-public static class UIManager
+public class UIManager : Singleton<UIManager>
 {
-    public static UIObject Layout;    
+    public UIObject Layout;    
 
-    public static void Initialize()
+    public override void Awake()
     {
+        base.Awake();
         Layout = new UIObject ("Layout", 0, 0, Console.WindowWidth, Console.WindowHeight);
     }
 
-    public static void UpdateResolution()
+    public void UpdateResolution()
     {
         Layout.SetSize(Console.WindowWidth, Console.WindowHeight);
     }
 
-    public static List<IFocusable> AvailableFocusableCollection = new List<IFocusable>();
+    public List<IFocusable> AvailableFocusableCollection = new List<IFocusable>();
 
-    static IFocusable CurrentFocusObject;
-    public static IFocusable GetCurrentFocusObject()
+    IFocusable CurrentFocusObject;
+    public IFocusable GetCurrentFocusObject()
     {
         return CurrentFocusObject;
     }
 
-    public static void SetCurrentFocusObject(IFocusable newFocus)
+    public void SetCurrentFocusObject(IFocusable newFocus)
     {
         if (newFocus != null && !newFocus.CanFocus)
         {            
@@ -59,7 +60,7 @@ public static class UIManager
         }
     }
 
-    public static UIObject GetCurrentFrontmostObject() 
+    public UIObject GetCurrentFrontmostObject() 
     { 
         if (Layout == null)
         {
@@ -75,7 +76,7 @@ public static class UIManager
         }
     }
 
-    public static bool SetCurrentFrontmostObject(UIObject uiObject)
+    public bool SetCurrentFrontmostObject(UIObject uiObject)
     {
         if (Layout == null)
         {
@@ -102,7 +103,7 @@ public static class UIManager
         return true;
     }
 
-    public static void UpdateCurrentFrontmostObject()
+    public void UpdateCurrentFrontmostObject()
     {
         for (int i = 0; i < Layout.GetChildrenCount(); i++)
         {
@@ -121,7 +122,7 @@ public static class UIManager
         }
     }
 
-    public static bool RegisterUIObject(UIObject uiObject, bool shouldFrontmost = false)
+    public bool RegisterUIObject(UIObject uiObject, bool shouldFrontmost = false)
     {
         if (Layout == null)
         {
@@ -148,24 +149,12 @@ public static class UIManager
         return true;
     }
 
-    public static void DestroyUIObject(this UIObject uiObject)
-    {
-        if (Layout == null)
-        {
-            Log.Error("Cannot Destroy UI Object when Layout is Null");
-            return;
-        }
-
-        Layout.RemoveChild(uiObject);          
-        UpdateCurrentFrontmostObject();              
-    }
-
-    public static void Draw()
+    public void Draw()
     {
         Layout.Draw();
     }
 
-    public static bool Navigate(NavigationDirection direction)
+    public bool Navigate(NavigationDirection direction)
     {
         IFocusable currentFocus = GetCurrentFocusObject();
         if (currentFocus == null)
@@ -176,7 +165,7 @@ public static class UIManager
         return currentFocus.Navigate(direction);
     }
 
-    public static void ActionTriggered(InputActionEvent inputActionEvent) 
+    public void ActionTriggered(InputActionEvent inputActionEvent) 
     {
         if (inputActionEvent.IdentifierTag == Tags.IA_UINavUp)
         {
@@ -215,8 +204,9 @@ public static class UIManager
         }
     }
 
-    public static IFocusable FocusRaycast(int x, int y, int width, NavigationDirection dir, List<IFocusable> toIgnore)
+    public IFocusable FocusRaycast(int x, int y, int width, NavigationDirection dir, List<IFocusable> toIgnore)
     {
+        // TODO 
         return null;
     }
 }

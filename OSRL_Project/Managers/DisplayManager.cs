@@ -3,19 +3,20 @@ using ConsoleHelperLibrary.Classes;
 using System.ComponentModel;
 
 
-public static class DisplayManager
+public class DisplayManager : Singleton<DisplayManager>
 {
-    private static ConsoleCanvas m_DisplayCanvas = null;
-    public static bool IsDirty = true;
+    private ConsoleCanvas m_DisplayCanvas = null;
+    public bool IsDirty = true;
 
     /// <summary>
     /// The frames per second to attempt to tick all objects by.
     /// </summary>
-    public static int FPSTarget = 120;
-    public static long TimeSinceLastFrame = 0;
+    public int FPSTarget = 120;
+    public long TimeSinceLastFrame = 0;
 
-    public static void Initialize()
+    public override void Awake()
     {        
+        base.Awake();
         // Window Height is given -1 to prevent the single scroll that occurs. 
         // TODO - investigate, there may be a way to prevent scrolling
         m_DisplayCanvas = new ConsoleCanvas(Console.WindowWidth, Console.WindowHeight-1, false, false);
@@ -24,7 +25,7 @@ public static class DisplayManager
     /// <summary>
     /// Sets a pixel within the display. If a background is not provided, it will use the color previously there.
     /// </summary>
-    public static void Draw(int x, int y, char character, ConsoleColor foreground, ConsoleColor? background = null)
+    public void Draw(int x, int y, char character, ConsoleColor foreground, ConsoleColor? background = null)
     {
         if (x < 0 || x >= m_DisplayCanvas.Width)
         {
@@ -69,7 +70,7 @@ public static class DisplayManager
     /// <summary>
     /// Renders the current screen if dirty.
     /// </summary>
-    public static void Render(bool force = false)
+    public void Render(bool force = false)
     {
         if (m_DisplayCanvas == null )
         {
@@ -84,7 +85,7 @@ public static class DisplayManager
         IsDirty = false;
     }
 
-    public static void Tick(long deltaTime)
+    public void Tick(long deltaTime)
     {
         TimeSinceLastFrame += deltaTime;
 
@@ -92,7 +93,7 @@ public static class DisplayManager
         {
             TimeSinceLastFrame = 0;
             // TODO - I dislike this, but I don't have a way to force Tick positining yet
-            UIManager.Draw();
+            UIManager.instance.Draw();
             Render();
         }
     }

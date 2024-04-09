@@ -87,4 +87,16 @@ public static class UIHelper
 			}
 		}
 	}
+
+    public static void DestroyUIObject(this UIObject uiObject)
+    {
+        if (UIManager.instance.Layout == null)
+        {
+            Log.Error("Cannot Destroy UI Object when Layout is Null");
+            return;
+        }
+
+        UIManager.instance.Layout.RemoveChild(uiObject);          
+        UIManager.instance.UpdateCurrentFrontmostObject();              
+    }
 }

@@ -1,10 +1,15 @@
 public class InputActionMapping
 {
+    public InputActionMapping()
+    {
+        MappedKeys = new List<ConsoleKey> ();
+    }
+
     public InputActionMapping(List<ConsoleKey> mappedKeys)
     {
         MappedKeys = mappedKeys;
     }
-    public List<ConsoleKey> MappedKeys = new List<ConsoleKey> ();
+    public List<ConsoleKey> MappedKeys {get; set;} = new List<ConsoleKey> ();
     //public int Priority = 0;
     //public bool ConsumesInput = false;
 
@@ -12,9 +17,15 @@ public class InputActionMapping
 
 public class InputMappingContext
 {
-    public Tag MapTag;
+    public Tag MapTag {get; set;}
     //public int Priority = 0;
     //public bool ConsumesInput = false;
+
+    public InputMappingContext(Tag tag)
+    {
+        MapTag = tag;
+        MappedActions = new Dictionary<Tag, InputActionMapping> ();
+    }
 
     public InputMappingContext(Tag tag, Dictionary<Tag, InputActionMapping> mappedActions)
     {
@@ -22,7 +33,7 @@ public class InputMappingContext
         MappedActions = mappedActions;
     }
 
-    Dictionary<Tag, InputActionMapping> MappedActions = new Dictionary<Tag, InputActionMapping> ();
+    public Dictionary<Tag, InputActionMapping> MappedActions = new Dictionary<Tag, InputActionMapping> ();
 
     public List<InputAction> GetActionForKey(ConsoleKey key)
     {

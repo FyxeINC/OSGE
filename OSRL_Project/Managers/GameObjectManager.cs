@@ -1,30 +1,12 @@
-public static class GameObjectManager
+public class GameObjectManager : Singleton<GameObjectManager>
 {
-	static Dictionary<ulong, GameObject> GameObjectCollection = new Dictionary<ulong, GameObject> ();
-	static ulong NextID = 0;
-
-    /// <summary>
-    /// Give's a GameObject a unique ID and adds it to the tracked collection
-    /// </summary>
-	public static void Register(this GameObject newGameObject)
-	{
-		newGameObject.ID = NextID;
-		GameObjectCollection.Add(NextID, newGameObject);
-		NextID++;
-	}
-
-    /// <summary>
-    /// Removes the GameObject from the tracked collection
-    /// </summary>
-	public static void Unregister(this GameObject toUnregister)
-	{
-		GameObjectCollection.Remove(toUnregister.ID);
-	}
+	public Dictionary<ulong, GameObject> GameObjectCollection = new Dictionary<ulong, GameObject> ();
+	public ulong NextID = 0;
 
     /// <summary>
     /// Exactly what it says it does
     /// </summary>
-	public static GameObject GetGameObjectByID(ulong id)
+	public GameObject GetGameObjectByID(ulong id)
 	{
 		if (GameObjectCollection.ContainsKey(id))
 		{
@@ -36,7 +18,7 @@ public static class GameObjectManager
 		}
 	}
 
-	public static Dictionary<ulong, GameObject>.ValueCollection GetAllGameObjects()
+	public Dictionary<ulong, GameObject>.ValueCollection GetAllGameObjects()
 	{
 		return GameObjectCollection.Values;
 	}

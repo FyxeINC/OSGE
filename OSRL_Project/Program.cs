@@ -5,10 +5,13 @@ using W = ConsoleHelperLibrary.Classes.WindowUtility;
 
 public class Program
 {
+    public static Action OnQuit;
+
 	static int Main(string[] args)
 	{
+        AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnApplicationExit);
         
-
+#region Console Setup
 		Console.Title = "OSRL - (ESC to Quit)";
 		
         // Maximizes window
@@ -24,21 +27,42 @@ public class Program
         W.DisableQuickSelect(); 
 
         // Supposed to fix scrollbar showing up, potentially useless
+        // TODO - find a way to disable warning
         Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 
         // TODO - Create cursor manager
-		Console.CursorVisible = false;		
+		Console.CursorVisible = false;	
+#endregion	
 
 #region Initialize Managers
         Log.Initialize();
+        PlayerProfileManager.Initialize();
+        SaveManager.Initialize();
+        AudioManager.Initialize();
+        GameObjectManager.Initialize();
 		LocalizationManager.Initialize();
 		DisplayManager.Initialize();
 		UIManager.Initialize();
-		InputManager.Initialize();
-        TimeManager.Initialize();
+		InputManager.Initialize();  // Relies on player profile manager
+        TimeManager.Initialize();        
+        TagManager.Initialize();
+
+        TagManager.instance.Start();
+        PlayerProfileManager.instance.Start();
+        SaveManager.instance.Start();
+        AudioManager.instance.Start();
+        LocalizationManager.instance.Start();
+        DisplayManager.instance.Start();
+        GameObjectManager.instance.Start();
+        UIManager.instance.Start();
+        InputManager.instance.Start();
+        TimeManager.instance.Start();
+
+        InputManager.instance.OnDataSaved();
 #endregion
 		
-		UI_SolidFill backgroundFill = new UI_SolidFill (' ');
+#region DEBUG TESTING
+        UI_SolidFill backgroundFill = new UI_SolidFill (' ');
 		backgroundFill.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
         backgroundFill.SetColors(ConsoleColor.DarkGray, ConsoleColor.DarkBlue);
 
@@ -132,8 +156,8 @@ public class Program
 		// panel2.AddChild(areaA);
 
 		// UIManager.RegisterUIObject(panel2, true);
-		UIManager.RegisterUIObject(backgroundFill, false);
-		UIManager.RegisterUIObject(panel1, true);
+		UIManager.instance.RegisterUIObject(backgroundFill, false);
+		UIManager.instance.RegisterUIObject(panel1, true);
 
         //UIManager.Draw();
 		//DisplayManager.Render();
@@ -160,41 +184,32 @@ public class Program
 		// 	DisplayManager.Render();
 		// }
 		// while(keyInfo.Key != ConsoleKey.Escape);
-		
+#endregion
+
+#region Engine Loop
         // TODO - gameloop
         System.Threading.Thread.Sleep(1000);
 		while(true)
 		{
-            panel1.SetLocalPosition(panel1.GetScreenPosition().X + 2, panel1.GetScreenPosition().Y+0);            
+            int x = panel1.GetScreenPosition().X + 2;
+            if (x > Console.WindowWidth - panel1.Width)
+            {
+                x = 0;
+            }
+            panel1.SetLocalPosition(x, panel1.GetScreenPosition().Y+0);            
 		    //UIManager.Draw();
             System.Threading.Thread.Sleep(50);
 		}
-
-		
-		//Debug.WriteLine(MainUIObject.Width + "  |  " + MainUIObject.Height);
-		// Transform parent = new Transform (AnchorType.topLeft, new Point (), 100, 100, new TransformOffset ());
-		// Transform childTopleft = new Transform (AnchorType.topLeft, new Point (5,10), 50, 50, new TransformOffset (), parent);
-		// Transform childStretch = new Transform (AnchorType.stretch, new Point (), 0, 0, new TransformOffset (10, 5, 15, 2), parent);
-
-		// Rect topLeft = childTopleft.GetRect();
-		// Rect stretch = childStretch.GetRect();
-
-		// Debug.Print(topLeft.X + " " + topLeft.Y + " " + topLeft.Width + " " + topLeft.Height);
-		// Debug.Print(stretch.X + " " + stretch.Y + " " + stretch.Width + " " + stretch.Height);
-
-		
-		// UIParent uiParent = UIManager.CreateUIObject<UIParent>(true);
-		// UIE_SolidColor elementSolidColor = uiParent.AddUIElement<UIE_SolidColor>("SolidColor");
-		// elementSolidColor.DisplayChar = ' ';
-		// elementSolidColor.Foreground = ConsoleColor.White;
-		// elementSolidColor.Background = ConsoleColor.Black;
-		
-		// UIManager.RenderAll();
-
-		//m_Display = new Display ();
-		//m_Display.Render();
+#endregion
 			
 		return 0;
 	}
+
+    static void OnApplicationExit(object sender, EventArgs e)
+    {
+        Debug.WriteLine("did start quit");
+        OnQuit();
+    }
+
 }
 

@@ -38,7 +38,7 @@ public class Examples
 
     public void ExampleLocalization()
     {
-        LocalizationManager.SetLanguage(Tags.Lang_EN);
+        LocalizationManager.instance.SetLanguage(Tags.Lang_EN);
 
         string translatedYesStringEnglish = "";
 
@@ -46,7 +46,7 @@ public class Examples
 
         translatedYesStringEnglish = new Tag("Localization.Yes").GetString();
 
-        LocalizationManager.SetLanguage(Tags.Lang_ES);
+        LocalizationManager.instance.SetLanguage(Tags.Lang_ES);
         
         string translatedYesStringSpanish = "";
 

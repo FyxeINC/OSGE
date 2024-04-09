@@ -20,7 +20,7 @@ public class UI_SolidFill : UIObject
 		{
 			for (int y = 0; y < rect.Height; y++)
 			{
-				DisplayManager.Draw(x + rect.X, y + rect.Y, Character, GetColorForeground(), GetColorBackground());
+				DisplayManager.instance.Draw(x + rect.X, y + rect.Y, Character, GetColorForeground(), GetColorBackground());
 			}
 		}
 		base.Draw();
