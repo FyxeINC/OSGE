@@ -75,7 +75,7 @@ public class UI_Border : UIObject
 				
 				if (canDraw)
 				{
-					DisplayManager.Draw(x + rect.X, y + rect.Y, toUse, GetColorForeground(), GetColorBackground());
+					DisplayManager.instance.Draw(x + rect.X, y + rect.Y, toUse, GetColorForeground(), GetColorBackground());
 				}
 			}
 		}

@@ -24,11 +24,11 @@ public class GameObject : IDrawable, ITickable
 
         if (CanTick)
         {
-            TimeManager.Register(this);
+            TimeManager.instance.Register(this);
         }
         else
         {
-            TimeManager.Unregister(this);
+            TimeManager.instance.Unregister(this);
         }
     }
 

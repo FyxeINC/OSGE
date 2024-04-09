@@ -5,12 +5,13 @@ public enum PhysicsLayer
 	AI,
 	Object,
 }
-public static class PhysicsManager
+public class PhysicsManager : Singleton<PhysicsManager>
 {
-	static Dictionary<PhysicsLayer, List<PhysicsLayer>> CollisionCollection = new Dictionary<PhysicsLayer, List<PhysicsLayer>>();
+ Dictionary<PhysicsLayer, List<PhysicsLayer>> CollisionCollection = new Dictionary<PhysicsLayer, List<PhysicsLayer>>();
 
-	public static void Initialize()
+	public override void Awake()
 	{
+        base.Awake();
 		CollisionCollection.Add(PhysicsLayer.Wall, new List<PhysicsLayer>
 		{
 			PhysicsLayer.Wall,

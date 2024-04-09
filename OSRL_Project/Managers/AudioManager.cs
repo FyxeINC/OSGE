@@ -1,7 +1,7 @@
-public static class AudioManager
+public class AudioManager : Singleton<AudioManager>
 {
-    public static void PlayClip(Tag audioChannelTag, Tag clipToplay)
+    public void PlayClip(Tag audioChannelTag, Tag clipToplay)
     {
-        
+
     }
 }

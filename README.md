@@ -19,6 +19,8 @@ An Open Source Roguelike that I'm developing intermittently in my spare time. In
     - Soon to be CSV import / export
 - A tickable interface that allows objects to react to time
 - A display management system that attempts to render at a set FPS and only redraws when dirty
+- A save system to serialize objects cleanly
+- A player profile system that allows you to preserve saves to profiles
 
 ## Resources Used
 

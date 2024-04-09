@@ -111,7 +111,7 @@ public class UI_TextArea : UIObject
             {
                 if (stringIndex < text.Length)
                 {
-                    DisplayManager.Draw(x + rect.X, y + rect.Y, text[stringIndex], GetColorForeground(), GetColorBackground());
+                    DisplayManager.instance.Draw(x + rect.X, y + rect.Y, text[stringIndex], GetColorForeground(), GetColorBackground());
                     stringIndex += 1;
                 }
             }

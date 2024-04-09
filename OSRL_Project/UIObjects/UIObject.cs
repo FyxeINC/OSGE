@@ -43,7 +43,7 @@ public class UIObject : GameObject, IFocusable
 	{
 		get
 		{
-			return UIManager.GetCurrentFocusObject() == this;
+			return UIManager.instance.GetCurrentFocusObject() == this;
 		}
 	}
 #endregion
@@ -285,7 +285,7 @@ public class UIObject : GameObject, IFocusable
 			return false;
 		}
 
-		UIManager.SetCurrentFocusObject(FocusCollection[direction]);
+		UIManager.instance.SetCurrentFocusObject(FocusCollection[direction]);
 		return true;
 	}
 

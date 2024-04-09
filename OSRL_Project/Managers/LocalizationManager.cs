@@ -2,17 +2,18 @@ using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
 
-public static class LocalizationManager
+public class LocalizationManager : Singleton<LocalizationManager>
 {
-    public static Tag CurrentLanguage = Tags.Lang_EN;
-    public static Dictionary<Tag, LanguageCollection> LanguageDictionary = new Dictionary<Tag, LanguageCollection> ();
+    public Tag CurrentLanguage = Tags.Lang_EN;
+    public Dictionary<Tag, LanguageCollection> LanguageDictionary = new Dictionary<Tag, LanguageCollection> ();
 
-    public static List<LanguageString> AllStrings = new List<LanguageString> ();
+    public List<LanguageString> AllStrings = new List<LanguageString> ();
 
-    public static bool IsLocalizationDirty = false;
+    public bool IsLocalizationDirty = false;
 
-    public static void Initialize()
+    public override void Awake()
     {        
+        base.Awake();
         System.IO.Directory.CreateDirectory("Localization");
 
         AllStrings = new List<LanguageString> ();
@@ -57,26 +58,6 @@ public static class LocalizationManager
         //     }
         // }
     }
-
-    /// <summary>
-    /// Searched for a localized version of the string with the given tag.
-    /// </summary>
-    public static string GetString(this Tag locTag)
-    {
-        if (!LanguageDictionary.ContainsKey(CurrentLanguage))
-        {
-            return "LANG.NOT.FOUND";
-        }
-
-        return LanguageDictionary[CurrentLanguage].GetStringForTag(locTag);
-    }
-
-    public static string GetLocalizedString(this string nonLocString)
-    {
-        // TODO - cycle through strings and find
-        // probably a terrible idea
-        return "NOT.IMPLEMENTED";
-    }
     
 
     // I'm unsure if this is a decent practice. Potentially encourages bad standards.
@@ -109,7 +90,7 @@ public static class LocalizationManager
     /// <summary>
     /// Sets the current language. 
     /// </summary>
-    public static void SetLanguage(string languageString) 
+    public void SetLanguage(string languageString) 
     {
         SetLanguage(new string (languageString));
     }
@@ -117,7 +98,7 @@ public static class LocalizationManager
     /// <summary>
     /// Sets the current language. 
     /// </summary>
-    public static void SetLanguage(Tag languageTag)
+    public void SetLanguage(Tag languageTag)
     {
         CurrentLanguage = languageTag;
     }

@@ -1,12 +1,13 @@
-public static class TimeManager
+public class TimeManager : Singleton<TimeManager>
 {
 
-    public static long PreviousFrameTime;
+    public long PreviousFrameTime;
 
-    public static List<ITickable> TickableCollection = new List<ITickable> ();
+    public List<ITickable> TickableCollection = new List<ITickable> ();
 
-    public static void Initialize()
+    public override void Start()
     {
+        base.Start();
         long CurrentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
         PreviousFrameTime = CurrentTime;
 
@@ -17,8 +18,8 @@ public static class TimeManager
                 CurrentTime = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
                 long deltaTime = CurrentTime - PreviousFrameTime; // Milliseconds
                 
-                TimeManager.TickTickables(deltaTime);
-                DisplayManager.Tick(deltaTime);
+                TimeManager.instance.TickTickables(deltaTime);
+                DisplayManager.instance.Tick(deltaTime);
 
                 PreviousFrameTime = CurrentTime;
             }
@@ -28,13 +29,13 @@ public static class TimeManager
         thread.Start();
     }
 
-    public static long GetTime()
+    public long GetTime()
     {
         // TODO - verify that this works how I think it does
         return DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
     }
 
-    public static void TickTickables(long deltaTime)
+    public void TickTickables(long deltaTime)
     {
         foreach (var i in TickableCollection)
         {
@@ -42,12 +43,12 @@ public static class TimeManager
         }
     }
 
-    public static void Register(ITickable tickable)
+    public void Register(ITickable tickable)
     {
         TickableCollection.Add(tickable);
     }
 
-    public static void Unregister(ITickable tickable)
+    public void Unregister(ITickable tickable)
     {
         TickableCollection.Remove(tickable);
     }

@@ -1,9 +1,10 @@
 
+[Serializable]
 public class Tag : IEquatable<Tag>
 {
     public static char TagSeparator = '.'; 
 
-    public List<string> TagCollection = new List<string> ();
+    public List<string> TagCollection {get; set;} = new List<string> ();
 
     public Tag() { }
 
