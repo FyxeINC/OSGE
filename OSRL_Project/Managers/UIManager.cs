@@ -4,7 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.Dynamic;
 
-public enum NavigationDirection
+public enum Direction
 {
     up,
     down,
@@ -49,15 +49,15 @@ public class UIManager : Singleton<UIManager>
         Layout.AddUIObject(objectToAdd, uiLayerTag, setToFront);
     }
 
-    public void RemoveUIObject(UIObject objectToRemove)
+    public bool RemoveUIObject(UIObject objectToRemove)
     {
         if (Layout == null)
         {
             Log.Error("Cannot Remove UI Object when Layout is Null");
-            return;
+            return false;
         }
 
-        Layout.RemoveUIObject(objectToRemove);
+        return Layout.RemoveUIObject(objectToRemove);
     }
     
     public void Draw()
@@ -116,16 +116,16 @@ public class UIManager : Singleton<UIManager>
         foreach(IFocusable i in AvailableFocusableCollection)
         {
             Rect rect = i.GetScreenSpaceRect();
-            IFocusable hitUp    = FocusRaycast(rect.X + ((rect.Width) / 2)  , rect.Y                        , rect.Width , -1, NavigationDirection.up     , new List<IFocusable> { i });
-            IFocusable hitDown  = FocusRaycast(rect.X + ((rect.Width) / 2)  , rect.Y + rect.Height-1        , rect.Width , -1, NavigationDirection.down   , new List<IFocusable> { i });
-            IFocusable hitLeft  = FocusRaycast(rect.X                       , rect.Y + ((rect.Height) / 2)  , rect.Height, -1, NavigationDirection.left   , new List<IFocusable> { i });
-            IFocusable hitRight = FocusRaycast(rect.X + rect.Width-1        , rect.Y + ((rect.Height) / 2)  , rect.Height, -1, NavigationDirection.right  , new List<IFocusable> { i });
+            IFocusable hitUp    = FocusRaycast(rect.X + ((rect.Width) / 2)  , rect.Y                        , rect.Width , -1, Direction.up     , new List<IFocusable> { i });
+            IFocusable hitDown  = FocusRaycast(rect.X + ((rect.Width) / 2)  , rect.Y + rect.Height-1        , rect.Width , -1, Direction.down   , new List<IFocusable> { i });
+            IFocusable hitLeft  = FocusRaycast(rect.X                       , rect.Y + ((rect.Height) / 2)  , rect.Height, -1, Direction.left   , new List<IFocusable> { i });
+            IFocusable hitRight = FocusRaycast(rect.X + rect.Width-1        , rect.Y + ((rect.Height) / 2)  , rect.Height, -1, Direction.right  , new List<IFocusable> { i });
             //Log.WriteLine($"{i.Name} + {rect.X} + {rect.Y}");
 
-            i.SetFocusRelation(NavigationDirection.up, hitUp);
-            i.SetFocusRelation(NavigationDirection.down, hitDown);
-            i.SetFocusRelation(NavigationDirection.left, hitLeft);
-            i.SetFocusRelation(NavigationDirection.right, hitRight);
+            i.SetFocusRelation(Direction.up, hitUp);
+            i.SetFocusRelation(Direction.down, hitDown);
+            i.SetFocusRelation(Direction.left, hitLeft);
+            i.SetFocusRelation(Direction.right, hitRight);
 
             string upName = hitUp == null       ? "NULL" : hitUp.Name;
             string downName = hitDown == null   ? "NULL" : hitDown.Name;
@@ -137,7 +137,7 @@ public class UIManager : Singleton<UIManager>
         SetCurrentFocusObject(baseFocusable.GetFirstFocusable());
     }
 
-    public IFocusable FocusRaycast(int x, int y, int width, int length, NavigationDirection dir, List<IFocusable> toIgnore)
+    public IFocusable FocusRaycast(int x, int y, int width, int length, Direction dir, List<IFocusable> toIgnore)
     {
         if (length == -1)
         {
@@ -150,6 +150,30 @@ public class UIManager : Singleton<UIManager>
 
         for(int i = 0; i < length; i++)
         {
+            
+            // TODO - implement width
+
+            // for(int j = 0; j < width; j++)
+            // {
+            //     int currentCoordX = coordX;
+            //     int currentCoordY = coordY;
+                
+            //     if (dir == NavigationDirection.up)
+            //     {
+            //         currentCoordX = coordX - (width - j);
+            //     }
+
+
+            //     foreach (var focusable in AvailableFocusableCollection)
+            //     {
+            //         if (focusable.GetScreenSpaceRect().Contains(currentCoordX, currentCoordY) && !toIgnore.Contains(focusable))
+            //         {
+            //             //Log.WriteLine($"{toIgnore[0].Name} hit {focusable.Name} at x{coordX}, y{coordY} at length{i} with dir{dir}");
+            //             return focusable;
+            //         }                
+            //     }
+            // }
+
             foreach (var focusable in AvailableFocusableCollection)
             {
                 if (focusable.GetScreenSpaceRect().Contains(coordX, coordY) && !toIgnore.Contains(focusable))
@@ -159,35 +183,34 @@ public class UIManager : Singleton<UIManager>
                 }                
             }
             
-            // TODO - implement width
 
-            if (dir == NavigationDirection.up)
+            if (dir == Direction.up)
             {
                 coordY -= 1;
             }
-            else if (dir == NavigationDirection.down)
+            else if (dir == Direction.down)
             {
                 coordY += 1;
             }
-            else if (dir == NavigationDirection.left)
+            else if (dir == Direction.left)
             {
                 coordX -= 1;
             }
-            else if (dir == NavigationDirection.right)
+            else if (dir == Direction.right)
             {
                 coordX += 1;
             }
 
             if (!Layout.GetScreenSpaceRect().Contains(coordX, coordY))
             {
-                // Prevents off-screen gets
+                // Prevents off-screen checks
                 break;
             }
         }
         return null;
     }
 
-    public bool Navigate(NavigationDirection direction)
+    public bool Navigate(Direction direction)
     {
         IFocusable currentFocus = GetCurrentFocusedObject();
         if (currentFocus == null)
@@ -206,27 +229,34 @@ public class UIManager : Singleton<UIManager>
         if (inputActionEvent.IdentifierTag == Tags.IA_UINavUp)
         {
             // Navigate DOES return if successful/failed, could play sound or fx here
-            Navigate(NavigationDirection.up);
+            Navigate(Direction.up);
         }
         else if (inputActionEvent.IdentifierTag == Tags.IA_UINavDown)
         {
-            Navigate(NavigationDirection.down);
+            Navigate(Direction.down);
         }
         else if (inputActionEvent.IdentifierTag == Tags.IA_UINavLeft)
         {
-            Navigate(NavigationDirection.left);
+            Navigate(Direction.left);
         }
         else if (inputActionEvent.IdentifierTag == Tags.IA_UINavRight)
         {
-            Navigate(NavigationDirection.right);
+            Navigate(Direction.right);
         }
         else if (inputActionEvent.IdentifierTag == Tags.IA_UIGenericBack)
         {
-            
+            if (!Layout.HandleBackAction())
+            {
+                // Idk, a noise?
+            }
         }
         else if (inputActionEvent.IdentifierTag == Tags.IA_UIGenericForward)
         {
-            
+            IFocusable currentFocus = GetCurrentFocusedObject();
+            if (currentFocus != null)
+            {
+                currentFocus.OnInteract();
+            }
         }
         else if (inputActionEvent.IdentifierTag == Tags.IA_GeneralQuit)
         {

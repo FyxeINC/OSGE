@@ -1,4 +1,6 @@
-
+/// <summary>
+/// A unique UI object that creates "blank" children to act as layers. 
+/// </summary>
 public class UILayout : UIObject
 {
     public UILayout(string name, Point screenPosition, int width, int height)
@@ -47,28 +49,46 @@ public class UILayout : UIObject
         RecalculateFocus();
     }
 
-    public void RemoveUIObject(UIObject objectToRemove)
+    public bool RemoveUIObject(UIObject objectToRemove)
     {
+        bool didRemove = false;
         foreach (UIObject i in UILayerCollection.Values)
         {
             if (i.ContainsChild(objectToRemove))
             {
                 i.RemoveChild(objectToRemove);
+                didRemove = true;
                 break;
             }
         }
 
-        RecalculateFocus();
+        if (didRemove)
+        {
+            RecalculateFocus();
+        }
+        return didRemove;
     }
 
     // TODO - hook up to CanFocus
     public void RecalculateFocus()
     {   
         int previousFrontmostIndex = m_FrontmostIndex;
-        m_FrontmostIndex = -1;
+
+        // Set frontmost index to first child with focusable object
+        // m_FrontmostIndex = -1;
+        // for(int i = GetChildrenCollectionCount() -1; i >= 0; i--)
+        // {
+        //     if ((GetChildrenCollection()[i] as UIObject).CanAnyFocus())
+        //     {
+        //         m_FrontmostIndex = i;
+        //         break;
+        //     }
+        // }
+
+        // Set frontmost index to first child with children
         for(int i = GetChildrenCollectionCount() -1; i >= 0; i--)
         {
-            if ((GetChildrenCollection()[i] as UIObject).CanAnyFocus())
+            if (GetChildrenCollection()[i].GetChildrenCollectionCount() >= 0)
             {
                 m_FrontmostIndex = i;
                 break;
@@ -96,8 +116,28 @@ public class UILayout : UIObject
         else
         {
             UIManager.instance.RecalculateFocusables(null);
+        }        
+    }
+
+    public override bool HandleBackAction()
+    {
+        if (m_FrontmostIndex == -1)
+        {
+            return false;
         }
 
-        
+        UIObject frontmostLayer = (GetChildrenCollection()[m_FrontmostIndex] as UIObject);
+        // for(int i = frontmostLayer.GetChildrenCollectionCount(); i >= 0; i--)
+        // {
+        //     if ((frontmostLayer.GetChildrenCollection()[i] as UIObject).HandleBackAction())
+        //     {
+        //         return true;
+        //     }
+        // }
+        if (frontmostLayer.GetChildrenCollectionCount() <= 0)
+        {
+            return false;
+        }
+        return (frontmostLayer.GetChildrenCollection()[frontmostLayer.GetChildrenCollectionCount()-1] as UIObject).HandleBackAction();
     }
 }

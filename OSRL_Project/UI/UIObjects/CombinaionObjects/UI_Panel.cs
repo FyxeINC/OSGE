@@ -20,9 +20,11 @@ public class UI_Panel : UIObject
 		UITextArea.SetLocalPosition(0, 0);
 		UITextArea.SetSize(10, 1);
 
-		this.AddChild(UITextArea, false);
-		this.AddChild(UIBorder, false);
 		this.AddChild(UISolidFill, false);
+		this.AddChild(UIBorder, false);
+		this.AddChild(UITextArea, false);
+
+        IsBackHandler = true;
 	}
 #endregion
 

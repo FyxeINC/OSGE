@@ -95,8 +95,9 @@ public class UIObject : GameObject, IFocusable
 	public int OffsetRight;
 
 	public bool IsFrontmost;
+    public bool IsBackHandler = false;
 
-	public Dictionary<NavigationDirection, IFocusable> FocusNavigationCollection { get; set; } = new Dictionary<NavigationDirection, IFocusable>();    
+	public Dictionary<Direction, IFocusable> FocusNavigationCollection { get; set; } = new Dictionary<Direction, IFocusable>();    
     
     public virtual void SetColors(ConsoleColor foreground, ConsoleColor? background)
     {
@@ -305,8 +306,25 @@ public class UIObject : GameObject, IFocusable
 
 	public virtual void OnFoucsed() { }
 	public virtual void OnUnfocused() { }
+    public virtual void OnInteract() {}
 
-	public virtual bool Navigate(NavigationDirection direction)
+    public virtual bool HandleBackAction()
+    {
+        if (!IsBackHandler)
+        {
+            return false;
+        }
+
+        // Have to check if the UIManager can remove the object 
+        // (meaning its parent is one of Layout's special children and may require specific removal route)
+        if (!UIManager.instance.RemoveUIObject(this))
+        {
+            Parent.RemoveChild(this);
+        }
+        return true;
+    }
+
+	public virtual bool Navigate(Direction direction)
 	{
 		if (!FocusNavigationCollection.ContainsKey(direction))
 		{
@@ -321,7 +339,7 @@ public class UIObject : GameObject, IFocusable
 		return true;
 	}
 
-    public void SetFocusRelation(NavigationDirection direction, IFocusable focusable)
+    public void SetFocusRelation(Direction direction, IFocusable focusable)
     {
         if (!FocusNavigationCollection.ContainsKey(direction))
         {
@@ -361,15 +379,11 @@ public class UIObject : GameObject, IFocusable
 
 	public Rect GetScreenSpaceRect()
 	{
-		return GetRect();
-	}
-
-	public Rect GetRect()
-	{
 		Rect parentRect = new Rect();
+        
 		if (Parent != null)
 		{
-			parentRect = (Parent as UIObject).GetRect();
+			parentRect = (Parent as UIObject).GetScreenSpaceRect();
 		}
 		int x = 0;
 		int y = 0;

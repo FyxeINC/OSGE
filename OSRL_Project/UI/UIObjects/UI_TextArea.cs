@@ -30,11 +30,18 @@ public class UI_TextArea : UIObject
 	public TextAlignmentHorizontal AlignmentHorizontal  = TextAlignmentHorizontal.left;
 	public TextAlignmentVertical AlignmentVertical      = TextAlignmentVertical.top;
 
-    public void SetText(string newText) { Text = newText; 
+    public void SetText(string newText) 
+    {
+        Text = newText; 
+    }
+    public void SetTextAlignment(TextAlignmentHorizontal horizontal, TextAlignmentVertical vertical)
+    {
+        AlignmentHorizontal = horizontal;
+        AlignmentVertical = vertical;
     }
 	public override void Draw()
 	{
-		Rect rect = GetRect();
+		Rect rect = GetScreenSpaceRect();
 		int stringIndex = 0;
 		string toUse = Text;
 		if (IsFocused)

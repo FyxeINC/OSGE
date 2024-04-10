@@ -6,10 +6,20 @@
 - They can be "frontmost" (see below)
 - They can be "focused" (recieve Navigation input events)
 
-There are currently 3 archetypes of **UIObjects**
-- Main objects, which can be "frontmost" (see below)
-- Piece objects, which can be described as "parts of a widget" (UI_Border)
-- Combination objects, which instantiate their own pieces. (e.g. UI_Panel)
+## The UI system 
 
-The **UIManager** creates a fullscreen **UIObject** called Layout which it handles internally as a unique **UIObject**.
-This Layout's children are the only **UIObjects** that can be frontmost. Frontmost is a way to track which **UIObject** and its children are "in focus". 
+### The Basics
+- UI Objects draw their children first, then themselves
+- UI Objects draw children starting from GetChildrenCollectionCount()-1 to 0
+    - Such that if you add 2 children, the last added will be drawn first
+
+### Whats going on
+- The UI Manager creates a UILayout
+- The UILayout creates "empty" children with the CreateLayer(Tag) Function
+- The UIManager can add and remove UIObjects from layers with UIManager.instance.Add/RemoveUIObject(UIObject, LayerTag)
+    - UIObjects added this way may recieve Back events if IsBackHandler is true
+- One UI Layer is "Frontmost"
+    - The "highest" TagLayer object that has children
+    - e.g. If UILayout has 3 Tag layers added in the order A,B,C, and then has a child added to A and B, the B layer would be frontmost.
+
+

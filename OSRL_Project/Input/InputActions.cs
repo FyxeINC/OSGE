@@ -45,7 +45,7 @@ public static class InputMappingContexts
             {Tags.IA_UINavRight, new InputActionMapping (new List<ConsoleKey> { ConsoleKey.RightArrow, ConsoleKey.D})},
             {Tags.IA_UIGenericBack, new InputActionMapping (new List<ConsoleKey> { ConsoleKey.Escape})},
             {Tags.IA_UIGenericForward, new InputActionMapping (new List<ConsoleKey> { ConsoleKey.Enter})},
-            {Tags.IA_GeneralQuit, new InputActionMapping (new List<ConsoleKey> { ConsoleKey.Escape})}
+            {Tags.IA_GeneralQuit, new InputActionMapping (new List<ConsoleKey> { ConsoleKey.F1})}
         } );
     #endregion
 }

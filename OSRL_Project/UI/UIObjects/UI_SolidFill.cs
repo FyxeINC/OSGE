@@ -15,7 +15,7 @@ public class UI_SolidFill : UIObject
 
 	public override void Draw()
 	{
-		Rect rect = GetRect();
+		Rect rect = GetScreenSpaceRect();
 		for (int x = 0; x < rect.Width; x++)
 		{
 			for (int y = 0; y < rect.Height; y++)

@@ -19,16 +19,21 @@ public class UI_Border : UIObject
 	public UI_Border(BorderType type)
 		: base("Border", 0, 0, 0, 0)
 	{
-		Type = type;
+		CurrentBorderType = type;
         CurrentAnchorPoint = UIHelper.AnchorStretch;
 	}
 	#endregion
 
-	BorderType Type;
+	BorderType CurrentBorderType;
+
+    public void SetBorderType(BorderType newType)
+    {
+        CurrentBorderType = newType;
+    }
 
 	public override void Draw()
 	{
-		Rect rect = GetRect();
+		Rect rect = GetScreenSpaceRect();
 		for (int x = 0; x < rect.Width; x++)
 		{
 			for (int y = 0; y < rect.Height; y++)
@@ -41,35 +46,35 @@ public class UI_Border : UIObject
 
 					if (x == 0 && y == 0)                               // Top Left
 					{
-						toUse = GetCharForBorderType(Type, 4);
+						toUse = GetCharForBorderType(CurrentBorderType, 4);
 					}
 					else if (x == 0 && y == rect.Height-1)              // Bottom Left
 					{
-						toUse = GetCharForBorderType(Type, 6);
+						toUse = GetCharForBorderType(CurrentBorderType, 6);
 					}
 					else if (x == rect.Width-1 && y == rect.Height-1)   // Bottom Right
 					{
-						toUse = GetCharForBorderType(Type, 7);
+						toUse = GetCharForBorderType(CurrentBorderType, 7);
 					}
 					else if (x == rect.Width-1 && y == 0)               // Top Right
 					{
-						toUse = GetCharForBorderType(Type, 5);
+						toUse = GetCharForBorderType(CurrentBorderType, 5);
 					}
 					else if (x == 0)                                    // Vertical left
 					{
-						toUse = GetCharForBorderType(Type, 2);
+						toUse = GetCharForBorderType(CurrentBorderType, 2);
 					}
 					else if (x == rect.Width-1)                         // Vertical Right
 					{
-						toUse = GetCharForBorderType(Type, 3);
+						toUse = GetCharForBorderType(CurrentBorderType, 3);
 					}
 					else if (y == 0)                                    // Horizontal top
 					{
-						toUse = GetCharForBorderType(Type, 0);
+						toUse = GetCharForBorderType(CurrentBorderType, 0);
 					}
 					else if (y == rect.Height-1)                         // Horizontal bottom
 					{
-						toUse = GetCharForBorderType(Type, 1);
+						toUse = GetCharForBorderType(CurrentBorderType, 1);
 					}
 				}
 				
