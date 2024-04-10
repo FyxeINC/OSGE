@@ -9,6 +9,7 @@ public static class GameObjectHelper
 		newGameObject.ID = GameObjectManager.instance.NextID;
 		GameObjectManager.instance.GameObjectCollection.Add(GameObjectManager.instance.NextID, newGameObject);
 		GameObjectManager.instance.NextID++;
+        newGameObject.Awake();
 	}
 
     /// <summary>

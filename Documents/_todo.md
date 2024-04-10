@@ -25,13 +25,11 @@
         - Right align
         - Horizontal
     - CombinationObjects
-        - Progress Bar
         - Button
         - Slider Bar
     - Implement Scrolling
     - Implement pixel culling / masking?
-        - Potentially more useful if generic, outside of UI
-    - UI Layers and sorting order
+        - Potentially more useful if generic, outside of UI    
     - Modals
     - Some sort of auto navigation setup
         - IFocusable map created from "raycast"-ing rects?
@@ -44,6 +42,7 @@
     - Components
     - Cameras
     - Map/Level Management
+        - Level loading / unloading
     - Pathfinding
 
 ## Game

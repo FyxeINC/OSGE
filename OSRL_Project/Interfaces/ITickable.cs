@@ -1,6 +1,6 @@
 public interface ITickable
 {
-  bool CanTick {get; set;}
+  public bool CanTick() { return false; }
 
   /// <summary>
   /// Called inbetween frames

@@ -1,6 +1,6 @@
-# OSRL
+# OSGE
 
-An Open Source Roguelike that I'm developing intermittently in my spare time. Initially I'll be building the game engine, and then branching a game on top of it. Hopefully someone else can make use of this to make neat projects in the future!
+An Open Source Game Engine that I'm developing intermittently in my spare time. Hopefully someone else can make use of this to make neat projects in the future! I plan on building a roguelike after the main engine tasks are complete.
 
 ## Currently Includes:
 
@@ -32,5 +32,9 @@ An Open Source Roguelike that I'm developing intermittently in my spare time. In
 
 ## Getting Started
 
-View Examples.cs for a quick reference on how to interface with the main systems.
+This section will be heavily expaned upon when the project is in a more whole state. For now, you can view Examples.cs for a quick reference on how to interface with the main systems.
+
+## Additional thoughts
+
+The engine is heavily inspired by my numerous years of experience working with Unity and Unreal on a daily basis. The goal is to create something lightweight to use, but also rebust enough that it can handle some complex situations.
 
