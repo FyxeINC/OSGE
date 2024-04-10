@@ -93,4 +93,17 @@ public class Examples
         borderA.SetBorderType(BorderType.solidA);		
         borderA.SetBorderType(BorderType.solidA);		
     }
+
+    public void ExampleGameObject()
+    {
+        GameObject objectA = new GameObject ();        
+        GameObjectComponent componentA = objectA.AddComponent<GameObjectComponent>();
+        objectA.SetCanTick(true);
+
+        
+        GameObject objectB = new GameObject ();        
+
+        // Do NOT call SetParent() on B, instead call AddChild on A
+        objectA.AddChild(objectB);
+    }
 }

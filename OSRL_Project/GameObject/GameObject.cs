@@ -5,24 +5,29 @@ public class GameObject : IDrawable, ITickable
 {
 
 #region ITickable
+
+    bool m_CanTick = false;
     /// <summary>
     /// DO NOT set to true, call SetCanTick
     /// </summary>
-	public virtual bool CanTick {get; set;} = false;    
+	public virtual bool CanTick()
+    {
+        return m_CanTick;
+    }
 
     /// <summary>
     /// Change if this GameObject recieves Tick() updates. Note: false by default, must be enabled post construction.
     /// </summary>
     public void SetCanTick(bool canTick)
     {
-        if (canTick == CanTick)
+        if (canTick == m_CanTick)
         {
             return;
         }
 
-        CanTick = canTick;
+        m_CanTick = canTick;
 
-        if (CanTick)
+        if (m_CanTick)
         {
             TimeManager.instance.Register(this);
         }
@@ -31,8 +36,6 @@ public class GameObject : IDrawable, ITickable
             TimeManager.instance.Unregister(this);
         }
     }
-
-	public virtual void Tick(float deltaTime) {}
 #endregion
 
 #region IDrawable    
@@ -114,15 +117,35 @@ public class GameObject : IDrawable, ITickable
     /// The GameObject that this object is parented to. Can be null. This object's position will be relative to its parent's position.
     /// </summary>
 	public GameObject Parent { get; set; }
+	public string Name {get; set;} = "GameObject";
 	protected List<GameObject> ChildrenCollection = new List<GameObject> ();    
 
+    List<GameObjectComponent> ComponentCollection = new List<GameObjectComponent> ();
+
+    public List<GameObjectComponent> GetComponentCollection()
+    {
+        return ComponentCollection;
+    }
     
-	public string Name {get; set;} = "GameObject";
 	public virtual void SetParent(GameObject newParent)
 	{
 		Parent = newParent;
         SetIsDirty(true);
 	}
+
+    public virtual T AddComponent<T>() where T : GameObjectComponent, new()
+    {
+        T newComponent = new T ();
+        newComponent.SetParent(this);
+        ComponentCollection.Add(newComponent);
+        newComponent.Awake();
+        return newComponent;
+    }
+
+    public virtual void RemoveComponent(GameObjectComponent toRemove)
+    {
+        ComponentCollection.Remove(toRemove);
+    }
 
 	public void SetLocalPosition(Point point) { SetLocalPosition(point.X, point.Y); }
 	public void SetLocalPosition(int x, int y)
@@ -236,4 +259,40 @@ public class GameObject : IDrawable, ITickable
 	{
 		return $"{ID}:{Name}";
 	}
+    
+    /// <summary>
+    /// Called after GameObject is registered and has ID
+    /// </summary>
+    public virtual void Awake()
+    {
+        foreach (var i in ComponentCollection)
+        {
+            i.Awake();
+        }
+
+        // TODO - associate with level or something
+        Start();
+    }
+
+    /// <summary>
+    /// Called after Awake()
+    /// </summary>
+    public virtual void Start()
+    {
+        foreach (var i in ComponentCollection)
+        {
+            i.Start();
+        }
+    }
+
+    public virtual void Tick(long deltaTime)
+    {
+        foreach (var i in ComponentCollection)
+        {
+            if (i.CanTick())
+            {
+                i.Tick(deltaTime);
+            }
+        }
+    }
 }

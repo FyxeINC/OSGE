@@ -1,4 +1,15 @@
 public class Actor : GameObject
 {
-	public bool HasCollision = true;
+	Controller m_Controller;
+
+    public void SetController(Controller newController)
+    {
+        m_Controller = newController;
+        OnSetController(m_Controller);
+    }
+
+    protected virtual void OnSetController(Controller newController)
+    {
+
+    }
 }
