@@ -65,7 +65,8 @@ public class GameObject : IDrawable, ITickable
     /// </summary>
 	public virtual void Draw() 
 	{
-		for (int i = ChildrenCollection.Count-1; i >= 0; i--)
+		//for (int i = GetChildrenCollectionCount()-1; i >= 0; i--)
+        for (int i = 0; i < GetChildrenCollectionCount(); i++)
 		{
 			ChildrenCollection[i].Draw();
 		}
@@ -165,7 +166,7 @@ public class GameObject : IDrawable, ITickable
 		return ChildrenCollection.Contains(child);
 	}
 
-	public virtual void AddChild(GameObject newChild, bool frontmost = true)
+	public virtual void AddChild(GameObject newChild, bool sendToBackground = false)
 	{
 		if (newChild == null)
 		{
@@ -181,7 +182,7 @@ public class GameObject : IDrawable, ITickable
 		{
 			return;
 		}
-		if (frontmost)
+		if (sendToBackground)
 		{
 			ChildrenCollection.Insert(0, newChild);
 		}

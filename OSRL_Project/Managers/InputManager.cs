@@ -38,10 +38,10 @@ public class InputManager : Singleton<InputManager>
                 while (!Console.KeyAvailable)
                 {
                     // tick?
-                    System.Threading.Thread.Sleep(250);
+                    //System.Threading.Thread.Sleep(250);
                 }
                 keyInfo = Console.ReadKey(true);
-                Log.WriteLine("Key Pressed: " + keyInfo.KeyChar);
+                //Log.WriteLine("Key Pressed: " + keyInfo.KeyChar);
                 InputManager.instance.OnKey(keyInfo.Key);
             }
             while(true);
