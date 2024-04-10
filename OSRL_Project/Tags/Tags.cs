@@ -35,4 +35,23 @@ public static class Tags
     public static Tag Loc_Panel = new Tag ("Localization.Panel");
     
 #endregion
+
+#region UI
+    /// <summary>
+    /// E.g. HUD elements
+    /// </summary>
+    public static Tag UILayer_Game = new Tag ("UI.Layer.Game");
+    /// <summary>
+    /// E.g. Inventories, dialogue
+    /// </summary>
+    public static Tag UILayer_GameMenu = new Tag ("UI.Layer.GameMenu");
+    /// <summary>
+    /// E.g. Pause, settings, main menu
+    /// </summary>
+    public static Tag UILayer_Menu = new Tag ("UI.Layer.Menu");
+    /// <summary>
+    /// E.g. Yes/No
+    /// </summary>
+    public static Tag UILayer_Modal = new Tag ("UI.Layer.Modal");
+#endregion
 }

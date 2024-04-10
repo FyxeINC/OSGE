@@ -1,10 +1,21 @@
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace ConsoleHelperLibrary.Classes
 {
     public class WindowUtility
     {
+        private delegate int HookProc(int code, IntPtr wParam, IntPtr lParam);
+        static IntPtr hHook;
+        
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SetWindowsHookEx", SetLastError = true)]
+        static extern IntPtr SetWindowsHookEx(int idHook, HookProc lpfn, IntPtr hMod, uint dwThreadId);
+        
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        static extern int CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+
         //https://stackoverflow.com/questions/13656846/how-to-programmatic-disable-c-sharp-console-applications-quick-edit-mode
         const uint ENABLE_QUICK_EDIT = 0x0040;
 
@@ -269,5 +280,19 @@ namespace ConsoleHelperLibrary.Classes
             Console.SetWindowPosition(left: 0, top: 0);
         }
 
+        public static void SubscribeToResizeEvent()
+        {
+            // Get this console window's hWnd (window handle).
+            IntPtr hWnd = GetConsoleWindow();
+
+            // TODO - complete the reseach to allow for window resizing events
+            //SetWindowsHookEx(3, OnWindowResize, hWnd, Process.GetCurrentProcess().thre);
+
+        }
+
+        public int OnWindowResize(int nCode, IntPtr wParam, IntPtr lParam)
+        {
+            return CallNextHookEx(hHook, nCode, wParam, lParam);
+        }
     }
 }

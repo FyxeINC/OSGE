@@ -2,8 +2,7 @@
 
 ## Engine
 
-- Exterior
-    - Fix issue with screen leaving ghosts
+- Exterior    
     - Logging
         - Output to file.
     - GameManagement
@@ -31,6 +30,8 @@
         - Slider Bar
     - Implement Scrolling
     - Implement pixel culling / masking?
+        - Potentially more useful if generic, outside of UI
+    - UI Layers and sorting order
     - Modals
     - Some sort of auto navigation setup
         - IFocusable map created from "raycast"-ing rects?

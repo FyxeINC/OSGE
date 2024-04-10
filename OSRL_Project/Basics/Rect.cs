@@ -27,6 +27,18 @@ public class Rect
     Height = height;
   }
 
+  public bool Contains(int x, int y)
+  {
+    // TODO - check
+    if (x >= X && x < X + Width && 
+        y >= Y && y < Y + Height)
+    {
+        return true;
+    }
+
+    return false;
+  }
+
   public override string ToString()
   {
       return $"(X:{X} | Y:{Y}  | W:{Width} | H:{Height})";

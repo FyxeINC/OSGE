@@ -38,9 +38,9 @@ public class UI_HorizontalGroup : UIObject
 		if (ListAnchorPoint == AnchorPointHorizonal.left)
 		{
 			int startingWidth = 0;
-			for (int i = 0; i < GetChildrenCount(); i++)
+			for (int i = 0; i < GetChildrenCollectionCount(); i++)
 			{
-				UIObject childObject = (GetChildren()[i] as UIObject);
+				UIObject childObject = (GetChildrenCollection()[i] as UIObject);
 				childObject.SetAnchorPoint(AnchorPointHorizonal.left, AnchorPointVertical.stretch);
 				childObject.SetSize(ListObjectWidth, 0);
 				childObject.SetLocalPosition(startingWidth, 0);
