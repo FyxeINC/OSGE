@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roomy", "Roomy.csproj", "{82A0EA7C-A18D-4DFA-BAF8-F85E08305AD2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSGE_Project", "OSGE_Project.csproj", "{82A0EA7C-A18D-4DFA-BAF8-F85E08305AD2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
