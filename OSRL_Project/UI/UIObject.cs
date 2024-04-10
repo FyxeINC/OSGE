@@ -43,9 +43,20 @@ public class UIObject : GameObject, IFocusable
 	{
 		get
 		{
-			return UIManager.instance.GetCurrentFocusObject() == this;
+			return UIManager.instance.GetCurrentFocusedObject() == this;
 		}
 	}
+
+    public void SetCanFocus(bool newCanFocus)
+    {
+        bool wasChanged = CanFocus != newCanFocus;
+        CanFocus = newCanFocus;
+
+        if (wasChanged)
+        {
+            UIManager.instance.OnSetCanFocus();
+        }
+    }
 #endregion
 
 #region Constructors
@@ -85,7 +96,7 @@ public class UIObject : GameObject, IFocusable
 
 	public bool IsFrontmost;
 
-	public Dictionary<NavigationDirection, IFocusable> FocusCollection { get; set; } = new Dictionary<NavigationDirection, IFocusable>();    
+	public Dictionary<NavigationDirection, IFocusable> FocusNavigationCollection { get; set; } = new Dictionary<NavigationDirection, IFocusable>();    
     
     public virtual void SetColors(ConsoleColor foreground, ConsoleColor? background)
     {
@@ -240,7 +251,24 @@ public class UIObject : GameObject, IFocusable
 	public virtual void OnNotFrontmost() { }
 
 	#region Focus
-	public IFocusable GetFirstFocusable()
+    public bool CanAnyFocus()
+    {
+        if (CanFocus)
+        {
+            return true;
+        }
+
+        foreach (var i in GetChildrenCollection())
+        {
+            if ((i as UIObject).CanAnyFocus())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+	public virtual IFocusable GetFirstFocusable()
 	{
 		if (this.CanFocus)
 		{
@@ -280,36 +308,28 @@ public class UIObject : GameObject, IFocusable
 
 	public virtual bool Navigate(NavigationDirection direction)
 	{
-		if (!FocusCollection.ContainsKey(direction))
+		if (!FocusNavigationCollection.ContainsKey(direction))
 		{
 			return false;
 		}
+        if (FocusNavigationCollection[direction] == null)
+        {
+            return false;
+        }
 
-		UIManager.instance.SetCurrentFocusObject(FocusCollection[direction]);
+		UIManager.instance.SetCurrentFocusObject(FocusNavigationCollection[direction]);
 		return true;
 	}
 
-	/// <summary>
-	/// Sets a focus relation on this object to another, given a relation. 
-	/// If NULL is provided, it will remove the focus relation.
-	/// </summary>
-	public void SetFocusRelation(IFocusable focusable, NavigationDirection direction)
-	{
-		if (focusable == null)
-		{
-			FocusCollection.Remove(direction);
-			return;
-		}
+    public void SetFocusRelation(NavigationDirection direction, IFocusable focusable)
+    {
+        if (!FocusNavigationCollection.ContainsKey(direction))
+        {
+            FocusNavigationCollection.Add(direction, null);
+        }
 
-		if (FocusCollection.ContainsKey(direction))
-		{
-			FocusCollection[direction] = focusable;
-		}
-		else
-		{
-			FocusCollection.Add(direction, focusable);
-		}
-	}
+        FocusNavigationCollection[direction] = focusable;
+    }
 	#endregion
 
 	public override void SetParent(GameObject newParent)

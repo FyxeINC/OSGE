@@ -11,92 +11,91 @@ public static class UIHelper
 	public static AnchorPoint AnchorBottomRight = new AnchorPoint (AnchorPointHorizonal.right, AnchorPointVertical.bottom);
 	public static AnchorPoint AnchorStretch = new AnchorPoint (AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
 	
-	public static void CreateVerticalFocusMappings(List<UIObject> toMap, bool allowLoop = true)
-	{
-		if (toMap == null)
-		{
-			return;
-		}
-		if (toMap.Count <= 1)
-		{
-			return;
-		}
+	// public static void CreateVerticalFocusMappings(List<UIObject> toMap, bool allowLoop = true)
+	// {
+	// 	if (toMap == null)
+	// 	{
+	// 		return;
+	// 	}
+	// 	if (toMap.Count <= 1)
+	// 	{
+	// 		return;
+	// 	}
 
-		for (int i = 0; i < toMap.Count; i++)
-		{
-			if (i == 0)
-			{
-				if (allowLoop)
-				{
-					toMap[i].SetFocusRelation(toMap[toMap.Count-1], NavigationDirection.up);
-				}
-			}
-			else
-			{
-				toMap[i].SetFocusRelation(toMap[i-1], NavigationDirection.up);
-			}
+	// 	for (int i = 0; i < toMap.Count; i++)
+	// 	{
+	// 		if (i == 0)
+	// 		{
+	// 			if (allowLoop)
+	// 			{
+	// 				toMap[i].SetFocusRelation(toMap[toMap.Count-1], NavigationDirection.up);
+	// 			}
+	// 		}
+	// 		else
+	// 		{
+	// 			toMap[i].SetFocusRelation(toMap[i-1], NavigationDirection.up);
+	// 		}
 
-		if (i == toMap.Count-1)
-		{
-			if (allowLoop)
-			{
-				toMap[i].SetFocusRelation(toMap[0], NavigationDirection.down);  
-			}
-			}
-			else
-			{
-				toMap[i].SetFocusRelation(toMap[i+1], NavigationDirection.down);      
-			}
-		}
-	}
-    public static void CreateHorizontalFocusMappings(List<UIObject> toMap, bool allowLoop = true)
-	{
-		if (toMap == null)
-		{
-			return;
-		}
-		if (toMap.Count <= 1)
-		{
-			return;
-		}
+	// 	if (i == toMap.Count-1)
+	// 	{
+	// 		if (allowLoop)
+	// 		{
+	// 			toMap[i].SetFocusRelation(toMap[0], NavigationDirection.down);  
+	// 		}
+	// 		}
+	// 		else
+	// 		{
+	// 			toMap[i].SetFocusRelation(toMap[i+1], NavigationDirection.down);      
+	// 		}
+	// 	}
+	// }
+    // public static void CreateHorizontalFocusMappings(List<UIObject> toMap, bool allowLoop = true)
+	// {
+	// 	if (toMap == null)
+	// 	{
+	// 		return;
+	// 	}
+	// 	if (toMap.Count <= 1)
+	// 	{
+	// 		return;
+	// 	}
 
-		for (int i = 0; i < toMap.Count; i++)
-		{
-			if (i == 0)
-			{
-				if (allowLoop)
-				{
-					toMap[i].SetFocusRelation(toMap[toMap.Count-1], NavigationDirection.right);
-				}
-			}
-			else
-			{
-				toMap[i].SetFocusRelation(toMap[i-1], NavigationDirection.right);
-			}
+	// 	for (int i = 0; i < toMap.Count; i++)
+	// 	{
+	// 		if (i == 0)
+	// 		{
+	// 			if (allowLoop)
+	// 			{
+	// 				toMap[i].SetFocusRelation(toMap[toMap.Count-1], NavigationDirection.right);
+	// 			}
+	// 		}
+	// 		else
+	// 		{
+	// 			toMap[i].SetFocusRelation(toMap[i-1], NavigationDirection.right);
+	// 		}
 
-		if (i == toMap.Count-1)
-		{
-			if (allowLoop)
-			{
-				toMap[i].SetFocusRelation(toMap[0], NavigationDirection.left);  
-			}
-			}
-			else
-			{
-				toMap[i].SetFocusRelation(toMap[i+1], NavigationDirection.left);      
-			}
-		}
-	}
+	// 	if (i == toMap.Count-1)
+	// 	{
+	// 		if (allowLoop)
+	// 		{
+	// 			toMap[i].SetFocusRelation(toMap[0], NavigationDirection.left);  
+	// 		}
+	// 		}
+	// 		else
+	// 		{
+	// 			toMap[i].SetFocusRelation(toMap[i+1], NavigationDirection.left);      
+	// 		}
+	// 	}
+	// }
 
-    public static void DestroyUIObject(this UIObject uiObject)
+    public static void DestroyUIObject(this UIObject objectToDestroy)
     {
         if (UIManager.instance.Layout == null)
         {
             Log.Error("Cannot Destroy UI Object when Layout is Null");
             return;
         }
-
-        UIManager.instance.Layout.RemoveChild(uiObject);          
-        UIManager.instance.UpdateCurrentFrontmostObject();              
+      
+        UIManager.instance.RemoveUIObject(objectToDestroy);              
     }
 }

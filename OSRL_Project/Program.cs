@@ -58,7 +58,7 @@ public class Program
         InputManager.instance.Start();
         TimeManager.instance.Start();
 
-        InputManager.instance.OnDataSaved();
+        InputManager.instance.OnDataSaved();    // DEBUG
 #endregion
 		
 #region DEBUG TESTING
@@ -66,13 +66,48 @@ public class Program
 		backgroundFill.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.stretch);
         backgroundFill.SetColors(ConsoleColor.DarkGray, ConsoleColor.DarkBlue);
 
-		UI_Panel panel1 = new UI_Panel ("panel1", 0, 4, 30, 30, BorderType.doubleLine, Tags.Loc_Panel.GetString());
+		UI_Panel panel1 = new UI_Panel ("panel1", -3, 3, 60, 30, BorderType.doubleLine, "PANEL 1");
         panel1.SetColors(ConsoleColor.White, ConsoleColor.Black);
-		panel1.SetAnchorPoint(AnchorPointHorizonal.left, AnchorPointVertical.middle);
-		panel1.SetLocalPosition(0,0);
+		panel1.SetAnchorPoint(AnchorPointHorizonal.right, AnchorPointVertical.top);		
 		//panel1.SetOffset(10,-5,10,5);
-		panel1.SetSize(30, 30);
+		panel1.SetSize(60, 30);
+        
+		UI_Panel panel2 = new UI_Panel ("panel2", 0, 4, 30, 30, BorderType.doubleLine, "PANEL 2");
+        panel2.SetColors(ConsoleColor.White, ConsoleColor.Black);
+		panel2.SetAnchorPoint(AnchorPointHorizonal.left, AnchorPointVertical.middle);
+		panel2.SetLocalPosition(0,0);
+		//panel1.SetOffset(10,-5,10,5);
+		panel2.SetSize(30, 30);
+
+        UI_TextArea textA = new UI_TextArea ("TextA", 1, 1, 5, 1, "AAAAA");
+        textA.SetAnchorPoint(AnchorPointHorizonal.left, AnchorPointVertical.top);
+        textA.SetColors(ConsoleColor.White, ConsoleColor.Blue);
+        textA.SetCanFocus(true);
+
+        UI_TextArea textB= new UI_TextArea ("TextB", 1, 3, 5, 1, "BBBBB");
+        textB.SetAnchorPoint(AnchorPointHorizonal.left, AnchorPointVertical.top);
+        textB.SetColors(ConsoleColor.White, ConsoleColor.Red);
+        textB.SetCanFocus(true);
+        
+
+        UI_TextArea textC= new UI_TextArea ("TextC", 7, 1, 5, 1, "CCCCC");
+        textC.SetAnchorPoint(AnchorPointHorizonal.left, AnchorPointVertical.top);
+        textC.SetColors(ConsoleColor.Black, ConsoleColor.Green);
+        textC.SetCanFocus(true);
+
+        panel1.AddChild(textC, true);
+        panel1.AddChild(textA, true);
+        panel1.AddChild(textB, true);
+
+        Log.WriteLine(textA.GetScreenSpaceRect().ToString());
+        Log.WriteLine(textB.GetScreenSpaceRect().ToString());
+        Log.WriteLine(textC.GetScreenSpaceRect().ToString());
 		
+        
+		UIManager.instance.AddUIObject(panel1, Tags.UILayer_Game);
+
+		UIManager.instance.AddUIObject(backgroundFill, Tags.UILayer_Game);
+
 		// UI_TextArea areaA = new UI_TextArea ("textAreaA", 0, 2, 0, 4, 
 		// 	ConsoleColor.White, 
 		// 	ConsoleColor.Blue, 
@@ -156,8 +191,6 @@ public class Program
 		// panel2.AddChild(areaA);
 
 		// UIManager.RegisterUIObject(panel2, true);
-		UIManager.instance.RegisterUIObject(backgroundFill, false);
-		UIManager.instance.RegisterUIObject(panel1, true);
 
         //UIManager.Draw();
 		//DisplayManager.Render();
@@ -188,15 +221,15 @@ public class Program
 
 #region Engine Loop
         // TODO - gameloop
-        System.Threading.Thread.Sleep(1000);
+        //System.Threading.Thread.Sleep(1000);
 		while(true)
 		{
-            int x = panel1.GetScreenPosition().X + 2;
-            if (x > Console.WindowWidth - panel1.Width)
-            {
-                x = 0;
-            }
-            panel1.SetLocalPosition(x, panel1.GetScreenPosition().Y+0);            
+            // int x = panel1.GetScreenPosition().X + 2;
+            // if (x > Console.WindowWidth - panel1.Width)
+            // {
+            //     x = 0;
+            // }
+            // panel1.SetLocalPosition(x, panel1.GetScreenPosition().Y+0);            
 		    //UIManager.Draw();
             System.Threading.Thread.Sleep(50);
 		}
@@ -207,7 +240,6 @@ public class Program
 
     static void OnApplicationExit(object sender, EventArgs e)
     {
-        Debug.WriteLine("did start quit");
         OnQuit();
     }
 

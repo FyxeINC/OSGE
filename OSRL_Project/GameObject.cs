@@ -114,7 +114,9 @@ public class GameObject : IDrawable, ITickable
     /// </summary>
 	public GameObject Parent { get; set; }
 	protected List<GameObject> ChildrenCollection = new List<GameObject> ();    
-	public string Name = "GameObject";
+
+    
+	public string Name {get; set;} = "GameObject";
 	public virtual void SetParent(GameObject newParent)
 	{
 		Parent = newParent;
@@ -148,12 +150,12 @@ public class GameObject : IDrawable, ITickable
 		return ScreenPosition;
 	}
 
-	public List<GameObject> GetChildren()
+	public virtual List<GameObject> GetChildrenCollection()
 	{
 		return ChildrenCollection;
 	}
 
-	public int GetChildrenCount()
+	public int GetChildrenCollectionCount()
 	{
 		return ChildrenCollection.Count;
 	}

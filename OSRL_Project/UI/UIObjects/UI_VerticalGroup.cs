@@ -17,9 +17,9 @@ public class UI_VerticalGroup : UI_GroupBase
 		if (ListAnchorPoint == AnchorPointVertical.top)
 		{
 			int startingHeight = 0;
-			for (int i = 0; i < GetChildrenCount(); i++)
+			for (int i = 0; i < GetChildrenCollectionCount(); i++)
 			{
-				UIObject childObject = (GetChildren()[i] as UIObject);
+				UIObject childObject = (GetChildrenCollection()[i] as UIObject);
 				childObject.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.top);
                 int newHeight = childObject.Height;
                 if (UseGroupObjectHeight)
@@ -34,9 +34,9 @@ public class UI_VerticalGroup : UI_GroupBase
 		else if (ListAnchorPoint == AnchorPointVertical.bottom)
 		{
 			int startingHeight = 0;
-			for (int i = GetChildrenCount()-1; i >= 0; i--)
+			for (int i = GetChildrenCollectionCount()-1; i >= 0; i--)
 			{
-				UIObject childObject = (GetChildren()[i] as UIObject);
+				UIObject childObject = (GetChildrenCollection()[i] as UIObject);
 				childObject.SetAnchorPoint(AnchorPointHorizonal.stretch, AnchorPointVertical.bottom);
 				int newHeight = childObject.Height;
                 if (UseGroupObjectHeight)
